@@ -1,5 +1,15 @@
 import Link from 'next/link';
 import DynamicProjectList from "@/components/DynamicProjectList";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Projects",
+    description: "A collection of systems and applications built by Hareram Kushwaha, ranging from web architectures to low-level OS experiments.",
+    openGraph: {
+        title: "Projects | Hareram Kushwaha",
+        description: "A collection of systems and applications built by Hareram Kushwaha.",
+    },
+};
 
 export default async function Projects() {
     return (

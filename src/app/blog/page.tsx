@@ -1,4 +1,14 @@
 import DynamicBlogList from "@/components/DynamicBlogList";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Blog",
+    description: "Read the latest writings, insights, and thoughts on software engineering by Hareram Kushwaha.",
+    openGraph: {
+        title: "Blog | Hareram Kushwaha",
+        description: "Read the latest writings and insights by Hareram Kushwaha.",
+    },
+};
 
 export default function Blog() {
     return (

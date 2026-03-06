@@ -77,9 +77,13 @@ export default function DynamicProjectList() {
                     className="group flex flex-col p-8 border border-gray-800 rounded-3xl bg-gray-900/20 backdrop-blur-sm hover:bg-gray-900/40 hover:border-blue-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/5"
                 >
                     <div className="flex justify-between items-start mb-6">
-                        <div className="p-3 bg-gray-800/50 rounded-2xl group-hover:bg-blue-500/20 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-blue-400 transition-colors"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" /></svg>
-                        </div>
+                        {repo.imageUrl ? (
+                            <img src={repo.imageUrl} alt={repo.title} className="w-full h-40 object-cover rounded-2xl border border-gray-800/50 mb-2" />
+                        ) : (
+                            <div className="p-3 bg-gray-800/50 rounded-2xl group-hover:bg-blue-500/20 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-blue-400 transition-colors"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" /></svg>
+                            </div>
+                        )}
                     </div>
 
                     <div className="mb-4">

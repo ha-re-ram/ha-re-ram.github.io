@@ -20,6 +20,7 @@ export default function AdminDashboard() {
     const [category, setCategory] = useState("Completed");
     const [githubUrl, setGithubUrl] = useState("");
     const [liveUrl, setLiveUrl] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
     const [editId, setEditId] = useState<string | null>(null);
 
     const [items, setItems] = useState<any[]>([]);
@@ -114,6 +115,7 @@ export default function AdminDashboard() {
         setCategory("Completed");
         setGithubUrl("");
         setLiveUrl("");
+        setImageUrl("");
         setEditId(null);
     };
 
@@ -133,6 +135,7 @@ export default function AdminDashboard() {
             dataPayload.category = category;
             dataPayload.githubUrl = githubUrl;
             dataPayload.liveUrl = liveUrl;
+            dataPayload.imageUrl = imageUrl;
         }
 
         try {
@@ -162,6 +165,7 @@ export default function AdminDashboard() {
             setCategory(item.category || "Completed");
             setGithubUrl(item.githubUrl || "");
             setLiveUrl(item.liveUrl || "");
+            setImageUrl(item.imageUrl || "");
         }
     };
 
@@ -303,6 +307,16 @@ export default function AdminDashboard() {
                                             className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-blue-500"
                                             value={githubUrl}
                                             onChange={(e) => setGithubUrl(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="col-span-2">
+                                        <label className="block text-sm text-gray-400 mb-1">Image URL (Optional)</label>
+                                        <input
+                                            type="text"
+                                            placeholder="/projects/example.png or https://..."
+                                            className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-blue-500"
+                                            value={imageUrl}
+                                            onChange={(e) => setImageUrl(e.target.value)}
                                         />
                                     </div>
                                 </div>

@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Link from "next/link";
 import { siteConfig } from "@/lib/config";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // Font optimization (using Geist Sans/Mono if user prefers, or system fonts)
 // For now, let's keep it simple with system fonts as declared in globals.css,
@@ -23,9 +25,32 @@ export const metadata: Metadata = {
     "Next.js",
     "React",
     "Portfolio",
+    "Full-Stack Developer",
+    "Web Development",
+    "MERN Stack",
   ],
-  authors: [{ name: siteConfig.author }],
+  authors: [{ name: siteConfig.author, url: siteConfig.url }],
   creator: siteConfig.author,
+  publisher: siteConfig.author,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -41,7 +66,7 @@ export const metadata: Metadata = {
     creator: "@" + siteConfig.social.twitter,
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/icon.svg",
   },
 };
 
@@ -51,13 +76,32 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: siteConfig.author,
+    image: `${siteConfig.url}/opengraph-image`,
+    url: siteConfig.url,
+    jobTitle: "Software Engineer",
+    description: siteConfig.description,
+    sameAs: [
+      `https://github.com/${siteConfig.social.github}`,
+      `https://linkedin.com/in/${siteConfig.social.linkedin}`,
+      `https://twitter.com/${siteConfig.social.twitter}`,
+    ],
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-black text-white antialiased" suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-black/50 backdrop-blur-xl">
           <nav className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-            <Link href="/" className="text-2xl font-black tracking-tighter hover:text-blue-400 transition-colors">
-              H<span className="text-blue-500">.</span>K
+            <Link href="/" className="hover:opacity-80 transition-opacity">
+              <img src="/logo.png" alt="HA-RE-RAM Logo" className="w-12 h-12 rounded-full object-cover border border-white/10" />
             </Link>
 
             <div className="flex gap-8 text-sm font-medium text-gray-400">
@@ -78,6 +122,8 @@ export default function RootLayout({
         </header>
 
         <main>{children}</main>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
