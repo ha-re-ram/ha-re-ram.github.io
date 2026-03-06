@@ -43,7 +43,8 @@ export default function Home() {
               </span>
             </div>
 
-            <h1
+            <h1 className="sr-only">Hareram Kushwaha - Software Developer Portfolio</h1>
+            <h2
               className="text-7xl md:text-9xl lg:text-[11rem] font-black mb-6 tracking-tighter leading-[0.9]"
             >
               <span className="text-white drop-shadow-2xl">
@@ -53,7 +54,7 @@ export default function Home() {
               <span className="text-gradient drop-shadow-2xl">
                 Excellence.
               </span>
-            </h1>
+            </h2>
 
             <p
               className="text-xl md:text-2xl lg:text-3xl text-gray-400 mb-14 max-w-3xl mx-auto leading-relaxed font-light drop-shadow-md"

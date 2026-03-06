@@ -198,6 +198,7 @@ export default function About() {
                                 <a href={`https://linkedin.com/in/${siteConfig.social.linkedin}`} target="_blank" className="text-xl text-gray-500 hover:text-white transition-colors font-mono">LinkedIn</a>
                                 <a href={`https://github.com/${siteConfig.social.github}`} target="_blank" className="text-xl text-gray-500 hover:text-white transition-colors font-mono">GitHub</a>
                                 <a href={`https://twitter.com/${siteConfig.social.twitter}`} target="_blank" className="text-xl text-gray-500 hover:text-white transition-colors font-mono">Twitter</a>
+                                <a href={siteConfig.url} className="text-xl text-gray-500 hover:text-white transition-colors font-mono">Portfolio</a>
                             </div>
                             <p className="text-gray-700 font-mono text-sm uppercase tracking-widest">
                                 &copy; 2024 Hareram Kushwaha &bull; Design by Antigravity
