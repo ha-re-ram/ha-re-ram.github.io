@@ -38,7 +38,7 @@ export default function About() {
                         {/* Image Column */}
                         <div className="lg:col-span-5 relative w-full h-[50vh] md:h-[70vh] rounded-[3.5rem] overflow-hidden border-[8px] border-white/40 shadow-[0_30px_60px_rgba(0,0,0,0.05)] bg-white/20 group order-1 lg:order-2">
                             <Image
-                                src="/images/IMG-20240427-WA0148.jpg"
+                                src={siteConfig.images.about}
                                 alt="Hareram Kushwaha"
                                 fill
                                 className="object-cover object-center filter grayscale-[0.5] group-hover:grayscale-0 transition-all duration-1000 ease-out group-hover:scale-105"

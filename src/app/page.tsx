@@ -7,15 +7,7 @@ import { siteConfig } from "@/lib/config";
 import { motion, Variants, AnimatePresence } from "framer-motion";
 
 export default function Home() {
-  const heroImages = [
-    "/images/IMG_7197.jpg",
-    "/images/IMG_20260212_151657.jpg",
-    "/images/IMG-20240427-WA0126.jpg",
-    "/images/IMG-20240427-WA0130.jpg",
-    "/images/IMG-20240427-WA0148.jpg",
-    "/images/IMG_20260101_125047.jpg",
-    "/images/IMG_20260221_112735.jpg"
-  ];
+  const heroImages = siteConfig.images.hero;
 
   const [activeImgIndex, setActiveImgIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);

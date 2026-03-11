@@ -13,9 +13,28 @@ export const siteConfig = {
         hackerrank: "ha_re_ram"
     },
     contact: {
-        email: "hello@hareramkushwaha.com.np",
+        email: "hareramkushwaha054@gmail.com",
         collegeEmail: "23cs054@kpriet.ac.in",
         phone: "+91 8340318593"
+    },
+    images: {
+        about: "/images/IMG-20240427-WA0148.jpg",
+        hero: [
+            "/images/20230601_205930.jpg",
+            "/images/IMG_7197.jpg",
+            "/images/IMG_20260212_151657.jpg",
+            "/images/IMG-20240427-WA0126.jpg",
+            "/images/IMG-20240427-WA0130.jpg",
+            "/images/IMG-20240427-WA0148.jpg",
+            "/images/IMG_20260101_125047.jpg",
+            "/images/20230601_205928.jpg",
+            "/images/1657721271819.jpg",
+            "/images/IMG20230113133112.jpg",
+            "/images/IMG-20240430-WA0065.jpg",
+            "/images/IMG_20260125_161445443_HDR.jpg",
+            "/images/IMG_20250307_142542.jpg",
+            "/images/IMG_20260221_112735.jpg"
+        ]
     },
     url: "https://hareramkushwaha.com.np",
     projects: [
