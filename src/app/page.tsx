@@ -5,30 +5,22 @@ import Link from "next/link";
 import Image from "next/image";
 import { siteConfig } from "@/lib/config";
 import { motion, Variants, AnimatePresence } from "framer-motion";
+import {
+  Code2,
+  Database,
+  Server,
+  Terminal,
+  GitBranch,
+  Layers,
+  Cpu,
+  Globe,
+  Coffee,
+  Workflow
+} from "lucide-react";
+
+import HeroVideo from "@/components/HeroVideo";
 
 export default function Home() {
-  const heroImages = siteConfig.images.hero;
-
-  const [activeImgIndex, setActiveImgIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleNextImage = () => {
-    setActiveImgIndex((prev) => (prev + 1) % heroImages.length);
-  };
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isHovered) {
-      interval = setInterval(() => {
-        setActiveImgIndex((prev) => (prev + 1) % heroImages.length);
-      }, 1200); // Auto-advances every 1.2s while hovering
-    }
-    return () => clearInterval(interval);
-  }, [isHovered, heroImages.length]);
-
-  const mainImage = heroImages[activeImgIndex];
-  const nextImage = heroImages[(activeImgIndex + 1) % heroImages.length];
-
   const fadeUp: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
@@ -44,80 +36,37 @@ export default function Home() {
     }
   };
 
+  const skills = [
+    { name: "Java", icon: <Coffee className="w-5 h-5" /> },
+    { name: "JavaScript", icon: <Code2 className="w-5 h-5" /> },
+    { name: "React", icon: <Layers className="w-5 h-5" /> },
+    { name: "Node.js", icon: <Server className="w-5 h-5" /> },
+    { name: "MongoDB", icon: <Database className="w-5 h-5" /> },
+    { name: "MySQL", icon: <Database className="w-5 h-5" /> },
+    { name: "PHP", icon: <Globe className="w-5 h-5" /> },
+    { name: "Python", icon: <Terminal className="w-5 h-5" /> },
+    { name: "Git", icon: <GitBranch className="w-5 h-5" /> },
+  ];
+
   return (
     <main className="min-h-screen text-[#1a1a1a] relative overflow-hidden selection:bg-[#1a1a1a] selection:text-[#E5D5D0]">
       {/* Soft Vignette/Glow overlay for the edge surreal feel */}
       <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_150px_rgba(255,255,255,0.4)] z-10 mix-blend-overlay"></div>
 
-      {/* 3D-like floating orb gradients to emulate the Unseen 3D feel */}
+      {/* 3D-like floating orb gradients */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#f8e1da] blur-[100px] rounded-full animate-blob pointer-events-none opacity-60 mix-blend-multiply" />
       <div className="absolute top-[30%] right-[-10%] w-[40%] h-[40%] bg-[#d9e4eb] blur-[120px] rounded-full animate-blob [animation-delay:3s] pointer-events-none opacity-60 mix-blend-multiply" />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-6 pt-32 pb-20 overflow-hidden z-20">
+      <section className="relative min-h-screen flex items-center justify-center px-6 pt-16 md:pt-32 pb-12 overflow-hidden z-20">
         <div className="max-w-7xl mx-auto w-full relative min-h-[75vh] flex items-center">
 
-          {/* Interactive Collage Images behind text */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-full lg:w-[50%] h-[60vh] lg:h-[80vh] z-0 opacity-40 lg:opacity-100 flex items-center justify-end pr-4 lg:pr-10">
-            {/* Main Portrait */}
-            <div
-              onMouseEnter={() => { setIsHovered(true); handleNextImage(); }}
-              onMouseLeave={() => setIsHovered(false)}
-              onClick={handleNextImage}
-              className="relative w-[85%] sm:w-[70%] md:w-[60%] lg:w-[80%] h-[95%] rounded-[3rem] overflow-hidden border-[8px] border-white/40 shadow-[0_20px_50px_rgba(0,0,0,0.1)] origin-center rotate-2 z-10 bg-[#E5D5D0] cursor-pointer"
-            >
-              <AnimatePresence mode="popLayout">
-                <motion.div
-                  key={mainImage}
-                  initial={{ opacity: 0, filter: "blur(10px)", scale: 0.95 }}
-                  animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-                  exit={{ opacity: 0, filter: "blur(10px)", scale: 1.05 }}
-                  transition={{ duration: 0.6 }}
-                  className="absolute inset-0"
-                >
-                  <Image src={mainImage} alt="Hareram Main" fill className="object-cover object-top filter contrast-[1.05] brightness-[0.95]" priority />
-                </motion.div>
-              </AnimatePresence>
-              <div className="absolute inset-0 bg-black/5 mix-blend-overlay pointer-events-none"></div>
-            </div>
-
-            {/* Interactive Image floating Bottom Left cluster */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 50 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
-              onMouseEnter={() => { setIsHovered(true); handleNextImage(); }}
-              onMouseLeave={() => setIsHovered(false)}
-              onClick={handleNextImage}
-              className="absolute right-[50%] bottom-[0%] w-[45%] lg:w-[40%] h-[40%] hidden sm:block z-20 cursor-pointer group"
-            >
-              {/* Stacked Edge / Back Photo (Gives the illusion of a deck of photos) */}
-              <div className="absolute inset-0 rounded-[2rem] border-[6px] border-white/60 bg-white/50 shadow-xl -rotate-12 translate-x-2 translate-y-2 transition-transform duration-500 group-hover:-rotate-[15deg] group-hover:-translate-x-3 group-hover:translate-y-4"></div>
-
-              {/* Foreground Next Photo Preview */}
-              <div className="absolute inset-0 rounded-[2rem] overflow-hidden border-[6px] border-white shadow-2xl -rotate-6 transition-transform duration-500 group-hover:-rotate-3 group-hover:scale-105 bg-[#E5D5D0]">
-                <AnimatePresence mode="popLayout">
-                  <motion.div
-                    key={nextImage}
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 30 }}
-                    transition={{ duration: 0.4 }}
-                    className="absolute inset-0"
-                  >
-                    <Image src={nextImage} alt="Next Image Preview" fill className="object-cover filter sepia-[0.2] group-hover:sepia-0 transition-all duration-500" />
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Overlay Prompt */}
-                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-30 pointer-events-none">
-                  <span className="font-syne font-bold text-white uppercase tracking-widest text-xs flex items-center gap-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-                    Swap <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m21 16-4 4-4-4" /><path d="M17 20V4" /><path d="m3 8 4-4 4 4" /><path d="M7 4v16" /></svg>
-                  </span>
-                </div>
-              </div>
-            </motion.div>
+          {/* Hero Video instead of animation */}
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-full lg:w-[45%] h-[50vh] lg:h-[70vh] z-0 opacity-15 lg:opacity-100 flex items-center justify-end pointer-events-none lg:pointer-events-auto">
+            <HeroVideo />
           </div>
 
-          {/* Foreground Text Content overlapping the images */}
+          {/* Foreground Text Content */}
           <motion.div
             variants={staggerContainer}
             initial="hidden"
@@ -130,11 +79,11 @@ export default function Home() {
               </span>
             </motion.div>
 
-            <motion.h1 variants={fadeUp} className="flex flex-col items-start -space-y-2 md:-space-y-6 mb-8 w-full mix-blend-normal">
-              <span className="font-cormorant italic font-light text-[3.25rem] sm:text-6xl md:text-8xl lg:text-[7.5rem] tracking-tight text-[#1a1a1a] leading-none">
-                Designing <span className="font-syne not-italic font-black text-[3.25rem] sm:text-6xl md:text-8xl lg:text-[7.5rem] uppercase tracking-tighter">the</span>
+            <motion.h1 variants={fadeUp} className="flex flex-col mb-10 relative">
+              <span className="font-cormorant italic font-light text-[clamp(2.2rem,9vw,7.5rem)] tracking-tight text-[#1a1a1a] leading-[0.9]">
+                Engineering <span className="font-syne not-italic font-black text-[clamp(2.2rem,9vw,7.5rem)] uppercase tracking-tighter">the</span>
               </span>
-              <span className="font-syne font-black text-[3.85rem] sm:text-[5.5rem] md:text-[8rem] lg:text-[9.5rem] tracking-tighter uppercase text-[#1a1a1a] leading-none ml-[-2px] md:ml-[-4px]">
+              <span className="font-syne font-black text-[clamp(2.5rem,11vw,8rem)] tracking-tighter uppercase text-[#1a1a1a] leading-[0.8] ml-[-1px] md:ml-[-4px]">
                 Future.
               </span>
             </motion.h1>
@@ -143,14 +92,14 @@ export default function Home() {
               "Where raw logic unites with uncompromised aesthetics to forge the next generation of digital platforms."
             </motion.p>
 
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
+            <motion.div variants={fadeUp} className="flex flex-row flex-wrap items-center justify-center lg:justify-start gap-4 w-full">
               <Link
                 href="/projects"
-                className="group relative px-10 py-5 bg-[#1a1a1a] text-[#E5D5D0] font-syne font-bold uppercase tracking-widest rounded-full hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)] transition-all flex items-center justify-center gap-4 text-xs overflow-hidden"
+                className="group relative px-6 md:px-10 py-4 md:py-5 bg-[#1a1a1a] text-[#E5D5D0] font-syne font-bold uppercase tracking-widest rounded-full hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)] transition-all flex items-center justify-center gap-3 md:gap-4 text-[10px] md:text-xs overflow-hidden flex-1 sm:flex-none"
               >
                 <div className="absolute inset-0 bg-white/10 translate-y-[100%] group-hover:translate-y-[0%] transition-transform duration-500 ease-in-out"></div>
-                <span className="relative z-10 flex items-center gap-3">
-                  Explore Masterpieces
+                <span className="relative z-10 flex items-center gap-2 md:gap-3">
+                  Explore
                   <span className="group-hover:translate-x-2 transition-transform inline-block">→</span>
                 </span>
               </Link>
@@ -159,9 +108,9 @@ export default function Home() {
                 href={siteConfig.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group px-10 py-5 bg-[#E5D5D0]/80 backdrop-blur-md border border-[#1a1a1a]/20 text-[#1a1a1a] font-syne font-bold uppercase tracking-widest rounded-full hover:bg-white/50 hover:shadow-lg transition-all flex items-center justify-center gap-3 text-xs"
+                className="group px-6 md:px-10 py-4 md:py-5 bg-[#E5D5D0]/80 backdrop-blur-md border border-[#1a1a1a]/20 text-[#1a1a1a] font-syne font-bold uppercase tracking-widest rounded-full hover:bg-white/50 hover:shadow-lg transition-all flex items-center justify-center gap-2 md:gap-3 text-[10px] md:text-xs flex-1 sm:flex-none"
               >
-                Download Resume
+                Resume
                 <span className="group-hover:translate-x-1 transition-transform inline-block">↗</span>
               </a>
             </motion.div>
@@ -171,7 +120,7 @@ export default function Home() {
       </section>
 
       {/* Philosophy / Features Section */}
-      <section className="py-32 px-6 relative z-20 bg-white/20 backdrop-blur-3xl border-y border-white/30 text-center md:text-left">
+      <section className="py-20 md:py-32 px-6 relative z-20 bg-white/20 backdrop-blur-3xl border-y border-white/30 text-center md:text-left">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -196,18 +145,79 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Skills Ticker Section */}
+      <section className="py-24 px-6 relative z-20 overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center mb-16"
+          >
+            <h3 className="font-syne font-bold uppercase tracking-[0.3em] text-xs text-[#1a1a1a]/40 mb-4">Core Competencies</h3>
+            <div className="w-12 h-[1px] bg-[#1a1a1a]/20"></div>
+          </motion.div>
+
+          <div className="relative overflow-x-hidden">
+            <div className="flex gap-6 animate-ticker hover:[animation-play-state:paused]">
+              {[...skills, ...skills, ...skills].map((skill, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 flex items-center gap-4 px-8 py-5 bg-white/40 backdrop-blur-md border border-white/50 rounded-2xl shadow-sm hover:shadow-md hover:bg-white/60 transition-all cursor-default"
+                >
+                  <span className="text-[#1a1a1a]/60">{skill.icon}</span>
+                  <span className="font-syne font-bold uppercase tracking-widest text-xs text-[#1a1a1a]">{skill.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Marquee Section */}
-      <section className="py-24 overflow-hidden relative z-20">
+      <section className="py-12 overflow-hidden relative z-20 opacity-30">
         <div className="flex whitespace-nowrap animate-marquee">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="flex gap-16 items-center px-8">
-              {['Next.js', 'React', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS'].map((tech) => (
+              {['Java', 'JavaScript', 'React', 'Node.js', 'MongoDB', 'MySQL', 'PHP', 'Python', 'Git'].map((tech) => (
                 <span key={tech} className="font-syne text-5xl md:text-7xl font-bold text-transparent" style={{ WebkitTextStroke: '1px rgba(26,26,26,0.3)' }}>
                   {tech}
                 </span>
               ))}
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 md:py-32 px-6 relative z-20">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-3 gap-4 md:gap-12">
+            {[
+              { label: "Solved", value: siteConfig.stats.leetcode, sub: "LeetCode" },
+              { label: "OSS", value: siteConfig.stats.githubRepos, sub: "Repos" },
+              { label: "EXP", value: siteConfig.stats.experienceMonths, sub: "Years" }
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="text-center group"
+              >
+                <div className="font-syne font-black text-[clamp(2rem,8vw,4.5rem)] md:text-7xl uppercase tracking-tighter text-[#1a1a1a] mb-1 group-hover:scale-110 transition-transform duration-500">
+                  {stat.value}
+                </div>
+                <div className="font-syne font-bold uppercase tracking-[0.2em] text-[8px] md:text-[10px] text-[#1a1a1a]/40 mb-1">
+                  {stat.label}
+                </div>
+                <div className="font-cormorant italic text-sm md:text-lg text-[#1a1a1a]/60">
+                  {stat.sub}
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -227,7 +237,7 @@ export default function Home() {
             Hello.
           </h2>
           <Link
-            href="/about"
+            href="/contact"
             className="group relative inline-flex items-center gap-4 text-xl md:text-2xl text-[#1a1a1a] font-cormorant italic hover:opacity-70 transition-opacity"
           >
             Let's build together

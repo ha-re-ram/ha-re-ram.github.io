@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 
 export default async function Projects() {
     return (
-        <main className="min-h-screen py-32 px-6 sm:px-10 max-w-7xl mx-auto relative z-20 text-[#1a1a1a]">
+        <main className="min-h-screen py-20 md:py-32 px-6 sm:px-10 max-w-7xl mx-auto relative z-20 text-[#1a1a1a]">
             <header className="mb-20">
-                <h1 className="text-6xl md:text-8xl lg:text-9xl font-syne font-black uppercase tracking-tighter mb-8 text-[#1a1a1a]">
-                    Selected <span className="font-cormorant italic font-light tracking-tight normal-case">Projects</span>
+                <h1 className="text-[clamp(2.5rem,10vw,5rem)] md:text-8xl lg:text-9xl font-syne font-black uppercase tracking-tighter mb-8 text-[#1a1a1a] leading-tight md:leading-none">
+                    Selected <span className="font-cormorant italic font-light tracking-tight normal-case text-[clamp(2.5rem,12vw,6rem)] md:text-8xl lg:text-9xl">Projects</span>
                 </h1>
                 <p className="text-xl md:text-3xl font-cormorant italic text-[#4a4a4a] max-w-3xl leading-relaxed font-light">
                     A collection of systems and applications I've built, ranging from scalable web architectures to low-level OS experiments.

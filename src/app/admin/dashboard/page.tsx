@@ -5,7 +5,7 @@ import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import { Edit2, Trash2, Github, Plus, GripVertical, Save } from "lucide-react";
+import { Edit2, Trash2, Github, Plus, GripVertical, Save, Award } from "lucide-react";
 import { Reorder } from "framer-motion";
 
 export default function AdminDashboard() {
@@ -14,13 +14,18 @@ export default function AdminDashboard() {
     const router = useRouter();
 
     // Form states
-    const [tab, setTab] = useState("blogs"); // 'blogs' | 'projects'
+    const [tab, setTab] = useState("blogs"); // 'blogs' | 'projects' | 'certifications'
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [category, setCategory] = useState("Completed");
     const [githubUrl, setGithubUrl] = useState("");
     const [liveUrl, setLiveUrl] = useState("");
     const [imageUrl, setImageUrl] = useState("");
+    
+    // Cert specific
+    const [issuer, setIssuer] = useState("");
+    const [date, setDate] = useState("");
+    
     const [editId, setEditId] = useState<string | null>(null);
 
     const [items, setItems] = useState<any[]>([]);
@@ -71,12 +76,12 @@ export default function AdminDashboard() {
             // Sort by order first, then date
             data.sort((a, b) => {
                 if (a.order !== undefined && b.order !== undefined) return a.order - b.order;
-                return new Date(b.date).getTime() - new Date(a.date).getTime();
+                return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
             });
             setItems(data);
         } catch (error: any) {
             console.error("Error fetching data:", error);
-            alert("Database Error: " + error.message + "\n\nPlease check your Firestore Security Rules in the Firebase Console! They might be set to 'Production' instead of 'Test Mode'.");
+            alert("Database Error: " + error.message);
         }
     };
 
@@ -116,6 +121,8 @@ export default function AdminDashboard() {
         setGithubUrl("");
         setLiveUrl("");
         setImageUrl("");
+        setIssuer("");
+        setDate("");
         setEditId(null);
     };
 
@@ -125,30 +132,34 @@ export default function AdminDashboard() {
 
         const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
-        const dataPayload: any = {
+        let dataPayload: any = {
             title,
-            content,
             slug,
         };
 
-        if (tab === "projects") {
+        if (tab === "blogs") {
+            dataPayload.content = content;
+        } else if (tab === "projects") {
+            dataPayload.content = content;
             dataPayload.category = category;
             dataPayload.githubUrl = githubUrl;
             dataPayload.liveUrl = liveUrl;
             dataPayload.imageUrl = imageUrl;
+        } else if (tab === "certifications") {
+            dataPayload.name = title; // Reuse title as name
+            dataPayload.issuer = issuer;
+            dataPayload.date = date;
         }
 
         try {
             if (editId) {
-                // Update
                 await updateDoc(doc(db, tab, editId), dataPayload);
-                alert(`${tab === "blogs" ? "Blog" : "Project"} updated!`);
+                alert(`${tab.slice(0, -1)} updated!`);
             } else {
-                // Add
-                dataPayload.date = new Date().toISOString();
+                dataPayload.createdAt = new Date().toISOString();
                 dataPayload.order = items.length;
                 await addDoc(collection(db, tab), dataPayload);
-                alert(`${tab === "blogs" ? "Blog" : "Project"} added!`);
+                alert(`${tab.slice(0, -1)} added!`);
             }
             resetForm();
             fetchItems(tab);
@@ -159,13 +170,16 @@ export default function AdminDashboard() {
 
     const handleEdit = (item: any) => {
         setEditId(item.id);
-        setTitle(item.title);
-        setContent(item.content);
+        setTitle(item.title || item.name || "");
+        setContent(item.content || "");
         if (tab === "projects") {
             setCategory(item.category || "Completed");
             setGithubUrl(item.githubUrl || "");
             setLiveUrl(item.liveUrl || "");
             setImageUrl(item.imageUrl || "");
+        } else if (tab === "certifications") {
+            setIssuer(item.issuer || "");
+            setDate(item.date || "");
         }
     };
 
@@ -181,14 +195,13 @@ export default function AdminDashboard() {
     };
 
     const handleReorder = (newOrder: any[]) => {
-        setItems(newOrder); // Instant local UI update
+        setItems(newOrder);
     };
 
     const saveReorder = async () => {
         if (!db) return;
         setIsSavingOrder(true);
         try {
-            // Only update those whose index actually changed from their local .order property
             const promises = items.map((item, index) => {
                 if (item.order !== index) {
                     return updateDoc(doc(db, tab, item.id), { order: index });
@@ -227,28 +240,24 @@ export default function AdminDashboard() {
                     </button>
                 </div>
 
-                <div className="flex gap-4 mb-12 border-b border-[#1a1a1a]/10 pb-4">
-                    <button
-                        onClick={() => handleTabChange("blogs")}
-                        className={`px-4 py-2 font-syne font-bold uppercase tracking-widest text-sm transition-colors relative ${tab === "blogs" ? "text-[#1a1a1a]" : "text-[#1a1a1a]/40 hover:text-[#1a1a1a]/80"}`}
-                    >
-                        📝 Blogs
-                        {tab === "blogs" && <span className="absolute bottom-[-16px] left-0 right-0 h-0.5 bg-[#1a1a1a]"></span>}
-                    </button>
-                    <button
-                        onClick={() => handleTabChange("projects")}
-                        className={`px-4 py-2 font-syne font-bold uppercase tracking-widest text-sm transition-colors relative ${tab === "projects" ? "text-[#1a1a1a]" : "text-[#1a1a1a]/40 hover:text-[#1a1a1a]/80"}`}
-                    >
-                        🚀 Projects
-                        {tab === "projects" && <span className="absolute bottom-[-16px] left-0 right-0 h-0.5 bg-[#1a1a1a]"></span>}
-                    </button>
+                <div className="flex flex-wrap gap-4 mb-12 border-b border-[#1a1a1a]/10 pb-4">
+                    {["blogs", "projects", "certifications"].map((t) => (
+                        <button
+                            key={t}
+                            onClick={() => handleTabChange(t)}
+                            className={`px-4 py-2 font-syne font-bold uppercase tracking-widest text-sm transition-colors relative capitalize ${tab === t ? "text-[#1a1a1a]" : "text-[#1a1a1a]/40 hover:text-[#1a1a1a]/80"}`}
+                        >
+                            {t === "blogs" ? "📝 Blogs" : t === "projects" ? "🚀 Projects" : "🏆 Certs"}
+                            {tab === t && <span className="absolute bottom-[-16px] left-0 right-0 h-0.5 bg-[#1a1a1a]"></span>}
+                        </button>
+                    ))}
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     {/* Form Section */}
                     <div className="bg-white/30 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/40 flex flex-col h-fit shadow-[0_10px_30px_rgba(0,0,0,0.02)]">
                         <div className="flex justify-between items-center mb-8">
-                            <h2 className="text-2xl font-syne font-bold tracking-tight text-[#1a1a1a]">{editId ? "Edit" : "Add New"} {tab === "blogs" ? "Blog" : "Project"}</h2>
+                            <h2 className="text-2xl font-syne font-bold tracking-tight text-[#1a1a1a]">{editId ? "Edit" : "Add New"} {tab.slice(0, -1)}</h2>
                             {editId && (
                                 <button onClick={resetForm} className="text-[10px] font-syne font-bold uppercase tracking-widest text-[#1a1a1a]/60 hover:text-[#1a1a1a] px-4 py-2 bg-white/50 rounded-full border border-[#1a1a1a]/10">
                                     Cancel Edit
@@ -265,20 +274,9 @@ export default function AdminDashboard() {
                             </button>
                         )}
 
-                        {showGithub && tab === "projects" && (
-                            <div className="mb-8 max-h-48 overflow-y-auto bg-white/50 p-4 rounded-2xl border border-[#1a1a1a]/10 custom-scrollbar fade-in">
-                                {githubRepos.map(repo => (
-                                    <div key={repo.id} className="flex justify-between items-center p-3 border-b border-[#1a1a1a]/5 hover:bg-white/50 rounded-lg cursor-pointer transition-colors" onClick={() => importFromGithub(repo)}>
-                                        <span className="font-syne font-bold tracking-tight text-[#1a1a1a]">{repo.name}</span>
-                                        <Plus size={16} className="text-[#1a1a1a]" />
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
                         <form onSubmit={handleSave} className="space-y-6">
                             <div>
-                                <label className="block text-[10px] font-syne font-bold uppercase tracking-[0.2em] text-[#1a1a1a]/60 mb-2">Title</label>
+                                <label className="block text-[10px] font-syne font-bold uppercase tracking-[0.2em] text-[#1a1a1a]/60 mb-2">{tab === "certifications" ? "Certificate Name" : "Title"}</label>
                                 <input
                                     type="text"
                                     required
@@ -287,6 +285,32 @@ export default function AdminDashboard() {
                                     onChange={(e) => setTitle(e.target.value)}
                                 />
                             </div>
+
+                            {tab === "certifications" && (
+                                <div className="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-[10px] font-syne font-bold uppercase tracking-[0.2em] text-[#1a1a1a]/60 mb-2">Issuer</label>
+                                        <input
+                                            type="text"
+                                            required
+                                            className="w-full bg-white/50 backdrop-blur-md border border-[#1a1a1a]/10 rounded-2xl p-4 text-[#1a1a1a] focus:outline-none focus:border-[#1a1a1a]/30 transition-colors font-medium"
+                                            value={issuer}
+                                            onChange={(e) => setIssuer(e.target.value)}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-syne font-bold uppercase tracking-[0.2em] text-[#1a1a1a]/60 mb-2">Year/Date</label>
+                                        <input
+                                            type="text"
+                                            required
+                                            placeholder="e.g. 2024"
+                                            className="w-full bg-white/50 backdrop-blur-md border border-[#1a1a1a]/10 rounded-2xl p-4 text-[#1a1a1a] focus:outline-none focus:border-[#1a1a1a]/30 transition-colors font-medium"
+                                            value={date}
+                                            onChange={(e) => setDate(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            )}
 
                             {tab === "projects" && (
                                 <div className="grid grid-cols-2 gap-6">
@@ -324,20 +348,22 @@ export default function AdminDashboard() {
                                 </div>
                             )}
 
-                            <div>
-                                <label className="block text-[10px] font-syne font-bold uppercase tracking-[0.2em] text-[#1a1a1a]/60 mb-2">Content (Markdown)</label>
-                                <textarea
-                                    required
-                                    rows={8}
-                                    className="w-full bg-white/50 backdrop-blur-md border border-[#1a1a1a]/10 rounded-2xl p-4 text-[#1a1a1a] focus:outline-none focus:border-[#1a1a1a]/30 transition-colors font-medium custom-scrollbar"
-                                    value={content}
-                                    onChange={(e) => setContent(e.target.value)}
-                                    placeholder={tab === "projects" ? "## The Problem\n\n## The Architecture\n\n## The Impact & Results" : "Write your blog..."}
-                                />
-                            </div>
+                            {tab !== "certifications" && (
+                                <div>
+                                    <label className="block text-[10px] font-syne font-bold uppercase tracking-[0.2em] text-[#1a1a1a]/60 mb-2">Content (Markdown)</label>
+                                    <textarea
+                                        required
+                                        rows={8}
+                                        className="w-full bg-white/50 backdrop-blur-md border border-[#1a1a1a]/10 rounded-2xl p-4 text-[#1a1a1a] focus:outline-none focus:border-[#1a1a1a]/30 transition-colors font-medium custom-scrollbar"
+                                        value={content}
+                                        onChange={(e) => setContent(e.target.value)}
+                                        placeholder={tab === "projects" ? "## The Problem\n\n## The Architecture\n\n## The Impact & Results" : "Write your blog..."}
+                                    />
+                                </div>
+                            )}
 
-                            <button type="submit" className={`w-full font-syne font-bold uppercase tracking-widest text-sm py-4 mt-6 rounded-full transition-shadow hover:shadow-xl ${editId ? 'bg-[#1a1a1a] text-[#E5D5D0]' : 'bg-[#1a1a1a] text-[#E5D5D0]'}`}>
-                                {editId ? "Update" : "Publish"} {tab === "blogs" ? "Blog" : "Project"}
+                            <button type="submit" className="w-full font-syne font-bold uppercase tracking-widest text-sm py-4 mt-6 rounded-full bg-[#1a1a1a] text-[#E5D5D0] transition-shadow hover:shadow-xl">
+                                {editId ? "Update" : "Publish"} {tab.slice(0, -1)}
                             </button>
                         </form>
                     </div>
@@ -345,7 +371,7 @@ export default function AdminDashboard() {
                     {/* List Section */}
                     <div className="bg-white/30 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/40 flex flex-col shadow-[0_10px_30px_rgba(0,0,0,0.02)]">
                         <h2 className="text-2xl font-syne font-bold tracking-tight mb-8 flex justify-between items-center text-[#1a1a1a]">
-                            <span>Manage {tab === "blogs" ? "Blogs" : "Projects"}</span>
+                            <span>Manage {tab}</span>
                             <div className="flex items-center gap-4">
                                 {items.length > 1 && (
                                     <button
@@ -373,22 +399,23 @@ export default function AdminDashboard() {
                                             value={item}
                                             className={`bg-white/50 p-5 rounded-2xl border transition-all group flex justify-between items-center cursor-grab active:cursor-grabbing ${editId === item.id ? 'border-[#1a1a1a] shadow-[0_5px_15px_rgba(0,0,0,0.05)]' : 'border-[#1a1a1a]/5 hover:border-[#1a1a1a]/20 hover:bg-white/80'}`}
                                         >
-
                                             <div className="flex items-center gap-4 flex-1 overflow-hidden pointer-events-none">
                                                 <div className="flex flex-col gap-1 items-center px-2 text-[#1a1a1a]/20 group-hover:text-[#1a1a1a]/40 transition-colors">
                                                     <GripVertical size={20} />
                                                 </div>
                                                 <div className="flex-1 truncate">
                                                     <h3 className="font-syne font-bold tracking-tight text-lg text-[#1a1a1a] truncate flex items-center gap-3">
-                                                        {item.title}
+                                                        {item.title || item.name}
                                                         {tab === "projects" && (
-                                                            <span className={`text-[9px] uppercase tracking-widest font-bold px-3 py-1 rounded-full border ${item.category === 'Completed' ? 'bg-[#1a1a1a]/5 text-[#1a1a1a] border-[#1a1a1a]/10' :
-                                                                item.category === 'Working' ? 'bg-[#1a1a1a]/5 text-[#1a1a1a] border-[#1a1a1a]/10' :
-                                                                    'bg-[#1a1a1a]/5 text-[#1a1a1a] border-[#1a1a1a]/10'
-                                                                }`}>{item.category || "Completed"}</span>
+                                                            <span className="text-[9px] uppercase tracking-widest font-bold px-3 py-1 rounded-full border bg-[#1a1a1a]/5 text-[#1a1a1a] border-[#1a1a1a]/10">{item.category || "Completed"}</span>
+                                                        )}
+                                                        {tab === "certifications" && (
+                                                            <span className="text-[9px] uppercase tracking-widest font-bold px-3 py-1 rounded-full border bg-[#1a1a1a]/5 text-[#1a1a1a] border-[#1a1a1a]/10">{item.date}</span>
                                                         )}
                                                     </h3>
-                                                    <p className="text-sm text-[#4a4a4a] font-light truncate mr-4 mt-1">{(item.content || "").substring(0, 80)}...</p>
+                                                    <p className="text-sm text-[#4a4a4a] font-light truncate mr-4 mt-1">
+                                                        {tab === "certifications" ? item.issuer : (item.content || "").substring(0, 80) + "..."}
+                                                    </p>
                                                 </div>
                                             </div>
 
@@ -408,7 +435,6 @@ export default function AdminDashboard() {
                                                     <Trash2 size={16} />
                                                 </button>
                                             </div>
-
                                         </Reorder.Item>
                                     ))}
                                 </Reorder.Group>

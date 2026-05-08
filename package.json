@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@formspree/react": "^3.0.0",
     "firebase": "^12.9.0",
     "framer-motion": "^12.34.3",
     "gray-matter": "^4.0.3",

@@ -1,7 +1,7 @@
 export const siteConfig = {
-    title: "Hareram Kushwaha | Software Developer Portfolio",
-    description: "Hareram Kushwaha is a software developer specializing in backend systems, scalable infrastructure, APIs, and database optimization. View projects, blog, and resume.",
-    bio: "Computer Science Engineering student focused on writing correct, readable code and improving problem-solving skills through consistent practice. I prefer clear, maintainable solutions and enjoy building small projects to learn new tools and concepts.",
+    title: "Hareram Kushwaha | Evolving Software Engineer",
+    description: "Hareram Kushwaha is a Computer Science student at KPRIET, building scalable backend systems and high-performance digital solutions. Evolving from academic foundations to professional engineering.",
+    bio: "A Computer Science student at KPRIET with a passion for architecting scalable systems. I bridge the gap between academic theory and professional engineering, focusing on clean, maintainable code and solving complex computational challenges.",
     author: "Hareram Kushwaha",
     resumeUrl: "https://ha-re-ram.github.io/Resume/",
     resumeSource: "https://github.com/ha-re-ram/Resume",
@@ -15,10 +15,11 @@ export const siteConfig = {
     contact: {
         email: "hareramkushwaha054@gmail.com",
         collegeEmail: "23cs054@kpriet.ac.in",
-        phone: "+91 8340318593"
+        phone: "+91 8340318593",
+        formspreeId: "xzdojzva"
     },
     images: {
-        about: "/images/IMG-20240427-WA0148.jpg",
+        about: "/images/IMG_20260426_231933.jpg",
         hero: [
             "/images/20230601_205930.jpg",
             "/images/IMG_7197.jpg",
@@ -37,6 +38,15 @@ export const siteConfig = {
         ]
     },
     url: "https://hareramkushwaha.com.np",
+    stats: {
+        leetcode: "250+",
+        githubRepos: "40+",
+        experienceMonths: "2+ Years"
+    },
+    certifications: [
+        { name: "HackerRank Java (Basic)", issuer: "HackerRank", date: "2024" },
+        { name: "Object Oriented Programming in Java", issuer: "Coursera/Duke University", date: "2024" }
+    ],
     projects: [
         { name: "E-commerce-website", description: "Responsive store UI with product listings and cart interactions", status: "Completed" },
         { name: "weatherapp", description: "Interactive client-side app that fetches weather data (OpenWeatherMap)", status: "Completed" },

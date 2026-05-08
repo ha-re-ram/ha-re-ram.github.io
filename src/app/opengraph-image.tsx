@@ -72,15 +72,11 @@ export default async function Image() {
                         }}
                     >
                         <div style={{ display: 'flex', alignItems: 'center', fontSize: 24, color: '#ccc' }}>
-                            Next.js
+                            Full-Stack Development
                         </div>
                         <div style={{ width: 1, height: 30, background: '#444' }} />
                         <div style={{ display: 'flex', alignItems: 'center', fontSize: 24, color: '#ccc' }}>
-                            React
-                        </div>
-                        <div style={{ width: 1, height: 30, background: '#444' }} />
-                        <div style={{ display: 'flex', alignItems: 'center', fontSize: 24, color: '#ccc' }}>
-                            System Design
+                            System Architecture
                         </div>
                     </div>
                 </div>
