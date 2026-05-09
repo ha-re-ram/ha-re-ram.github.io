@@ -8,13 +8,14 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-20 px-6 border-t border-[#1a1a1a]/5 bg-[#E5D5D0]">
+    <footer className="py-12 md:py-20 px-6 border-t border-[#1a1a1a]/5 bg-[#E5D5D0]">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12 mb-16">
           <div className="col-span-2 md:col-span-2">
             <Link href="/" className="inline-block mb-6">
-              <span className="font-syne font-black text-3xl uppercase tracking-tighter">Hareram.</span>
-            </Link>
+              <span className="px-6 py-3 rounded-full border border-white/50 text-xs tracking-[0.3em] font-syne font-bold bg-[#E5D5D0]/80 backdrop-blur-md text-[#1a1a1a]/80 shadow-sm">
+                Ha-re-Ram
+              </span>            </Link>
             <p className="font-cormorant italic text-lg md:text-xl text-[#1a1a1a]/60 max-w-sm leading-relaxed">
               Crafting digital experiences where logic meets art. Building the future, one line of code at a time.
             </p>

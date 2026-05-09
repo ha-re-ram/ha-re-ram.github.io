@@ -107,7 +107,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <Navbar />
-        <div className="pt-20 md:pt-0">{children}</div>
+        <div className="pt-16 md:pt-0">{children}</div>
         <Footer />
         <TerminalEasterEgg />
       </body>

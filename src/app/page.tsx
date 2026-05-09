@@ -58,7 +58,7 @@ export default function Home() {
       <div className="absolute top-[30%] right-[-10%] w-[40%] h-[40%] bg-[#d9e4eb] blur-[120px] rounded-full animate-blob [animation-delay:3s] pointer-events-none opacity-60 mix-blend-multiply" />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-6 pt-6 md:pt-32 pb-12 overflow-hidden z-20">
+      <section className="relative min-h-screen flex items-center justify-center px-6 pt-2 md:pt-32 pb-12 overflow-hidden z-20">
         <div className="max-w-7xl mx-auto w-full relative min-h-[75vh] flex flex-col lg:flex-row items-center">
 
           {/* Hero Video - Prominent on mobile, Absolute on desktop */}
@@ -120,7 +120,7 @@ export default function Home() {
       </section>
 
       {/* Philosophy / Features Section */}
-      <section className="py-20 md:py-32 px-6 relative z-20 bg-white/20 backdrop-blur-3xl border-y border-white/30 text-center md:text-left">
+      <section className="py-16 md:py-32 px-6 relative z-20 bg-white/20 backdrop-blur-3xl border-y border-white/30 text-center md:text-left">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -190,7 +190,7 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 md:py-32 px-6 relative z-20">
+      <section className="py-16 md:py-32 px-6 relative z-20">
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-3 gap-4 md:gap-12">
             {[
@@ -222,7 +222,7 @@ export default function Home() {
       </section>
 
       {/* Footer CTA */}
-      <section className="py-40 px-6 text-center relative z-20">
+      <section className="py-24 md:py-40 px-6 text-center relative z-20">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}

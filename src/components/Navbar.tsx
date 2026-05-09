@@ -37,7 +37,7 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto flex justify-between items-center px-6 py-5">
         <Link href="/" className="hover:opacity-80 transition-all flex items-center gap-3 relative z-[110] py-1">
           <img src="/icon.svg" alt="Logo" className="w-8 h-8 object-contain" />
-          <span className="font-syne font-black text-xl tracking-tighter uppercase leading-none">HARERAM</span>
+          <span className="font-syne font-black text-xl tracking-tighter leading-none">Ha-re-Ram</span>
         </Link>
 
         {/* Desktop Navigation */}

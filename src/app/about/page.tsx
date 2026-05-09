@@ -98,7 +98,7 @@ export default function About() {
     };
 
     return (
-        <main className="min-h-screen py-12 md:py-32 px-6 sm:px-10 max-w-5xl mx-auto z-20 relative">
+        <main className="min-h-screen py-4 md:py-32 px-6 sm:px-10 max-w-5xl mx-auto z-20 relative">
             <motion.div
                 initial="hidden"
                 animate="visible"
@@ -123,6 +123,7 @@ export default function About() {
                                 src={siteConfig.images.about}
                                 alt="Hareram Kushwaha"
                                 fill
+                                priority={true}
                                 className="object-cover object-center filter grayscale-[0.3] group-hover:grayscale-0 transition-all duration-1000 ease-out group-hover:scale-105"
                             />
                             
@@ -177,7 +178,7 @@ export default function About() {
                 </motion.section>
 
                 {/* Tech Stack */}
-                <motion.section variants={fadeIn} className="mb-16 md:mb-32">
+                <motion.section variants={fadeIn} className="mb-20 md:mb-32">
                     <h2 className="text-sm uppercase tracking-[0.4em] font-syne font-bold mb-10 flex items-center gap-4 text-[#1a1a1a]/60">
                         <span className="w-12 h-px bg-[#1a1a1a]/20"></span>
                         Technologies
@@ -213,7 +214,7 @@ export default function About() {
                 </motion.section>
 
                 {/* Education Section */}
-                <motion.section variants={fadeIn} className="mb-32">
+                <motion.section variants={fadeIn} className="mb-20 md:mb-32">
                     <h2 className="text-sm uppercase tracking-[0.4em] font-syne font-bold mb-12 flex items-center gap-4 text-[#1a1a1a]/60">
                         <span className="w-12 h-px bg-[#1a1a1a]/20"></span>
                         Education
@@ -230,7 +231,7 @@ export default function About() {
                 </motion.section>
 
                 {/* Certifications Section */}
-                <motion.section variants={fadeIn} className="mb-32">
+                <motion.section variants={fadeIn} className="mb-20 md:mb-32">
                     <h2 className="text-sm uppercase tracking-[0.4em] font-syne font-bold mb-12 flex items-center gap-4 text-[#1a1a1a]/60">
                         <span className="w-12 h-px bg-[#1a1a1a]/20"></span>
                         Certifications
@@ -261,7 +262,7 @@ export default function About() {
                 </motion.section>
 
                 {/* Selected Work Summary */}
-                <motion.section variants={fadeIn} className="mb-32">
+                <motion.section variants={fadeIn} className="mb-20 md:mb-32">
                     <div className="flex justify-between items-end mb-12">
                         <h2 className="text-5xl md:text-6xl font-syne font-black uppercase tracking-tighter">Selected <span className="font-cormorant italic font-light lowercase">Work</span></h2>
                         <Link href="/projects" className="text-[#1a1a1a] font-syne font-bold uppercase tracking-widest text-sm hover:opacity-60 transition-colors flex items-center gap-2 group pb-2">
@@ -300,7 +301,7 @@ export default function About() {
                 </motion.section>
 
                 {/* Professional Resume CTA */}
-                <motion.section variants={fadeIn} className="mb-32">
+                <motion.section variants={fadeIn} className="mb-20 md:mb-40">
                     <div className="bg-[#1a1a1a] p-12 rounded-[3rem] text-[#E5D5D0] relative overflow-hidden group flex flex-col items-center text-center">
                         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-[80px] rounded-full -mr-32 -mt-32"></div>
                         <h2 className="text-4xl md:text-6xl font-syne font-bold uppercase tracking-tighter mb-6 relative z-10">Professional Journey</h2>
