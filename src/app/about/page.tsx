@@ -13,6 +13,8 @@ import { Award, BookOpen, GraduationCap } from "lucide-react";
 export default function About() {
     const [certs, setCerts] = useState<any[]>([]);
     const [loadingCerts, setLoadingCerts] = useState(true);
+    const [projects, setProjects] = useState<any[]>([]);
+    const [loadingProjects, setLoadingProjects] = useState(true);
 
     useEffect(() => {
         const fetchCerts = async () => {
@@ -46,6 +48,38 @@ export default function About() {
             }
         };
         fetchCerts();
+
+        const fetchProjects = async () => {
+            if (!db) {
+                setProjects(siteConfig.projects.slice(0, 4));
+                setLoadingProjects(false);
+                return;
+            }
+            try {
+                const querySnapshot = await getDocs(collection(db, "projects"));
+                const data: any[] = [];
+                querySnapshot.forEach((doc) => {
+                    data.push({ id: doc.id, ...doc.data() });
+                });
+                
+                if (data.length > 0) {
+                    // Filter for featured projects or sort by order
+                    let featured = data.filter(p => p.featured === true || p.isFeatured === true);
+                    if (featured.length === 0) {
+                        featured = data.slice(0, 4);
+                    }
+                    setProjects(featured);
+                } else {
+                    setProjects(siteConfig.projects.slice(0, 4));
+                }
+            } catch (error) {
+                console.error("Error fetching projects:", error);
+                setProjects(siteConfig.projects.slice(0, 4));
+            } finally {
+                setLoadingProjects(false);
+            }
+        };
+        fetchProjects();
     }, []);
 
     const fadeIn = {
@@ -235,24 +269,33 @@ export default function About() {
                         </Link>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {siteConfig.projects.slice(0, 4).map((project) => (
-                            <motion.a
-                                key={project.name}
-                                whileHover={{ y: -5 }}
-                                href={`https://github.com/${siteConfig.social.github}/${project.name}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group p-10 bg-white/30 backdrop-blur-xl border border-white/40 rounded-[2.5rem] hover:bg-white/50 transition-all shadow-[0_10px_30px_rgba(0,0,0,0.03)]"
-                            >
-                                <h3 className="text-2xl font-syne font-bold uppercase tracking-tight mb-4 flex items-center justify-between">
-                                    {project.name.replace(/-/g, ' ')}
-                                    <span className="opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>
-                                </h3>
-                                <p className="text-[#4a4a4a] text-lg font-light">
-                                    {project.description}
-                                </p>
-                            </motion.a>
-                        ))}
+                        {loadingProjects ? (
+                            [1, 2].map((i) => (
+                                <div key={i} className="h-48 bg-white/20 animate-pulse rounded-[2.5rem] border border-white/40"></div>
+                            ))
+                        ) : (
+                            projects.map((project) => (
+                                <motion.div
+                                    key={project.id || project.name}
+                                    whileHover={{ y: -5 }}
+                                    className="group p-10 bg-white/30 backdrop-blur-xl border border-white/40 rounded-[2.5rem] hover:bg-white/50 transition-all shadow-[0_10px_30px_rgba(0,0,0,0.03)]"
+                                >
+                                    <h3 className="text-2xl font-syne font-bold uppercase tracking-tight mb-4 flex items-center justify-between">
+                                        {(project.title || project.name || "").replace(/-/g, ' ')}
+                                        <Link 
+                                            href={project.id ? `/article?id=${project.id}&type=projects` : `https://github.com/${siteConfig.social.github}/${project.name}`}
+                                            target={project.id ? "_self" : "_blank"}
+                                            className="opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1 group-hover:-translate-y-1"
+                                        >
+                                            ↗
+                                        </Link>
+                                    </h3>
+                                    <p className="text-[#4a4a4a] text-lg font-light line-clamp-2">
+                                        {project.content || project.description}
+                                    </p>
+                                </motion.div>
+                            ))
+                        )}
                     </div>
                 </motion.section>
 

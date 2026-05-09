@@ -41,17 +41,17 @@ export const siteConfig = {
     stats: {
         leetcode: "250+",
         githubRepos: "40+",
-        experienceMonths: "2+ Years"
+        experienceMonths: "2+"
     },
     certifications: [
         { name: "HackerRank Java (Basic)", issuer: "HackerRank", date: "2024" },
         { name: "Object Oriented Programming in Java", issuer: "Coursera/Duke University", date: "2024" }
     ],
     projects: [
-        { name: "E-commerce-website", description: "Responsive store UI with product listings and cart interactions", status: "Completed" },
-        { name: "weatherapp", description: "Interactive client-side app that fetches weather data (OpenWeatherMap)", status: "Completed" },
-        { name: "Habit-Forge", description: "Small productivity/web experiment (habit tracker prototype)", status: "Completed" },
-        { name: "AIML-Lab", description: "Python notebooks and exercises demonstrating AI/ML basics", status: "Completed" },
+        { name: "E-commerce-website", description: "Responsive store UI with product listings and cart interactions", status: "Completed", featured: true },
+        { name: "weatherapp", description: "Interactive client-side app that fetches weather data (OpenWeatherMap)", status: "Completed", featured: true },
+        { name: "Habit-Forge", description: "Small productivity/web experiment (habit tracker prototype)", status: "Completed", featured: true },
+        { name: "AIML-Lab", description: "Python notebooks and exercises demonstrating AI/ML basics", status: "Completed", featured: true },
         { name: "OS-Lab", description: "Collection of Operating Systems lab programs and documentation", status: "Completed" },
         { name: "OS-Project", description: "OS project: virtual memory GUI, custom shell and related work", status: "Completed" },
         { name: "online-voting-system", description: "Secure voting system built with PHP and MySQL", status: "Completed" },

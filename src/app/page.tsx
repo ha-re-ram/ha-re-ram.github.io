@@ -58,11 +58,11 @@ export default function Home() {
       <div className="absolute top-[30%] right-[-10%] w-[40%] h-[40%] bg-[#d9e4eb] blur-[120px] rounded-full animate-blob [animation-delay:3s] pointer-events-none opacity-60 mix-blend-multiply" />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-6 pt-16 md:pt-32 pb-12 overflow-hidden z-20">
-        <div className="max-w-7xl mx-auto w-full relative min-h-[75vh] flex items-center">
+      <section className="relative min-h-screen flex items-center justify-center px-6 pt-6 md:pt-32 pb-12 overflow-hidden z-20">
+        <div className="max-w-7xl mx-auto w-full relative min-h-[75vh] flex flex-col lg:flex-row items-center">
 
-          {/* Hero Video instead of animation */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-full lg:w-[45%] h-[50vh] lg:h-[70vh] z-0 opacity-15 lg:opacity-100 flex items-center justify-end pointer-events-none lg:pointer-events-auto">
+          {/* Hero Video - Prominent on mobile, Absolute on desktop */}
+          <div className="relative lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 w-full lg:w-[45%] h-[30vh] md:h-[50vh] lg:h-[70vh] z-0 opacity-100 flex items-center justify-center lg:justify-end pointer-events-none lg:pointer-events-auto mb-4 lg:mb-0">
             <HeroVideo />
           </div>
 
@@ -71,15 +71,15 @@ export default function Home() {
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
-            className="w-full lg:w-[80%] relative z-10 flex flex-col items-start text-left mt-10 md:mt-0"
+            className="w-full lg:w-[80%] relative z-10 flex flex-col items-start text-left"
           >
-            <motion.div variants={fadeUp} className="mb-8 md:mb-12">
+            <motion.div variants={fadeUp} className="mb-3 md:mb-12">
               <span className="px-6 py-3 rounded-full border border-white/50 text-xs tracking-[0.3em] uppercase font-syne font-bold bg-[#E5D5D0]/80 backdrop-blur-md text-[#1a1a1a]/80 shadow-sm">
                 Hareram Kushwaha
               </span>
             </motion.div>
 
-            <motion.h1 variants={fadeUp} className="flex flex-col mb-10 relative">
+            <motion.h1 variants={fadeUp} className="flex flex-col mb-4 md:mb-10 relative">
               <span className="font-cormorant italic font-light text-[clamp(2.2rem,9vw,7.5rem)] tracking-tight text-[#1a1a1a] leading-[0.9]">
                 Engineering <span className="font-syne not-italic font-black text-[clamp(2.2rem,9vw,7.5rem)] uppercase tracking-tighter">the</span>
               </span>
@@ -88,7 +88,7 @@ export default function Home() {
               </span>
             </motion.h1>
 
-            <motion.p variants={fadeUp} className="text-xl md:text-3xl text-[#1a1a1a] mb-14 max-w-xl font-light leading-relaxed font-cormorant italic bg-[#E5D5D0]/60 lg:bg-transparent backdrop-blur-sm lg:backdrop-blur-none p-4 lg:p-0 rounded-2xl lg:rounded-none border-l-2 border-[#1a1a1a]/30 pl-6">
+            <motion.p variants={fadeUp} className="text-xl md:text-3xl text-[#1a1a1a] mb-8 md:mb-14 max-w-xl font-light leading-relaxed font-cormorant italic border-l-2 border-[#1a1a1a]/30 pl-6">
               "Where raw logic unites with uncompromised aesthetics to forge the next generation of digital platforms."
             </motion.p>
 

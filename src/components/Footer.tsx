@@ -47,13 +47,13 @@ export default function Footer() {
           </p>
           <div className="flex gap-8 items-center">
             <span className="font-cormorant italic text-sm text-[#1a1a1a]/40 italic">
-              Designed & Built with <span className="not-italic">🤍</span>
+              Designed & Built with <span className="not-italic">♥</span>
             </span>
-            <button 
+            <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="w-10 h-10 rounded-full border border-[#1a1a1a]/10 flex items-center justify-center hover:bg-[#1a1a1a] hover:text-[#E5D5D0] transition-all"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6" /></svg>
             </button>
           </div>
         </div>
