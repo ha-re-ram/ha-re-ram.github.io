@@ -125,7 +125,7 @@ export default function RootLayout({
         <div className="noise"></div>
         <script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=G-HGZW5VR7ZD"
+          src="https://www.googletagmanager.com/gtag/js?id=G-RGPNNZDK7Z"
         />
         <script
           id="google-analytics"
@@ -134,7 +134,7 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-HGZW5VR7ZD');
+              gtag('config', 'G-RGPNNZDK7Z');
             `,
           }}
         />
