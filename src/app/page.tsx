@@ -73,9 +73,14 @@ export default function Home() {
             animate="visible"
             className="w-full lg:w-[80%] relative z-10 flex flex-col items-start text-left"
           >
-            <motion.div variants={fadeUp} className="mb-3 md:mb-12">
-              <span className="px-6 py-3 rounded-full border border-white/50 text-xs tracking-[0.3em] uppercase font-syne font-bold bg-[#E5D5D0]/80 backdrop-blur-md text-[#1a1a1a]/80 shadow-sm">
-                Hareram Kushwaha
+            <motion.div variants={fadeUp} className="mb-3 md:mb-12 flex flex-col gap-3 w-full">
+              <div className="flex flex-wrap items-center gap-4">
+                <span className="px-6 py-3 rounded-full border border-white/50 text-xs tracking-[0.3em] uppercase font-syne font-bold bg-[#E5D5D0]/80 backdrop-blur-md text-[#1a1a1a]/80 shadow-sm">
+                  Hareram Kushwaha
+                </span>
+              </div>
+              <span className="text-[10px] md:text-xs tracking-[0.15em] md:tracking-[0.2em] uppercase font-syne font-bold text-[#1a1a1a]/60 pl-2 leading-relaxed whitespace-normal break-words">
+                CS Engineering Student · Full Stack Developer · Open to Opportunities
               </span>
             </motion.div>
 
@@ -88,8 +93,8 @@ export default function Home() {
               </span>
             </motion.h1>
 
-            <motion.p variants={fadeUp} className="text-xl md:text-3xl text-[#1a1a1a] mb-8 md:mb-14 max-w-xl font-light leading-relaxed font-cormorant italic border-l-2 border-[#1a1a1a]/30 pl-6">
-              "Where raw logic unites with uncompromised aesthetics to forge the next generation of digital platforms."
+            <motion.p variants={fadeUp} className="text-lg md:text-3xl text-[#1a1a1a] mb-8 md:mb-14 max-w-xl font-light leading-relaxed font-cormorant italic border-l-2 border-[#1a1a1a]/30 pl-6">
+              "A student of computer science who believes software engineering isn't just about writing code that works, but about designing systems that are robust, readable, and genuinely delightful to experience."
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-row flex-wrap items-center justify-center lg:justify-start gap-4 w-full">
@@ -159,14 +164,14 @@ export default function Home() {
           </motion.div>
 
           <div className="relative overflow-x-hidden">
-            <div className="flex gap-6 animate-ticker hover:[animation-play-state:paused]">
+            <div className="flex gap-4 md:gap-6 animate-ticker hover:[animation-play-state:paused]">
               {[...skills, ...skills, ...skills].map((skill, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 flex items-center gap-4 px-8 py-5 bg-white/40 backdrop-blur-md border border-white/50 rounded-2xl shadow-sm hover:shadow-md hover:bg-white/60 transition-all cursor-default"
+                  className="flex-shrink-0 flex items-center gap-3 md:gap-4 px-5 py-3.5 md:px-8 md:py-5 bg-white/40 backdrop-blur-md border border-white/50 rounded-2xl shadow-sm hover:shadow-md hover:bg-white/60 transition-all cursor-default"
                 >
-                  <span className="text-[#1a1a1a]/60">{skill.icon}</span>
-                  <span className="font-syne font-bold uppercase tracking-widest text-xs text-[#1a1a1a]">{skill.name}</span>
+                  <span className="text-[#1a1a1a]/60 w-4 h-4 md:w-5 md:h-5 flex items-center justify-center">{skill.icon}</span>
+                  <span className="font-syne font-bold uppercase tracking-widest text-[10px] md:text-xs text-[#1a1a1a]">{skill.name}</span>
                 </div>
               ))}
             </div>
@@ -175,12 +180,12 @@ export default function Home() {
       </section>
 
       {/* Marquee Section */}
-      <section className="py-12 overflow-hidden relative z-20 opacity-30">
+      <section className="py-8 md:py-12 overflow-hidden relative z-20 opacity-30">
         <div className="flex whitespace-nowrap animate-marquee">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="flex gap-16 items-center px-8">
+            <div key={i} className="flex gap-8 md:gap-16 items-center px-4 md:px-8">
               {['Java', 'JavaScript', 'React', 'Node.js', 'MongoDB', 'MySQL', 'PHP', 'Python', 'Git'].map((tech) => (
-                <span key={tech} className="font-syne text-5xl md:text-7xl font-bold text-transparent" style={{ WebkitTextStroke: '1px rgba(26,26,26,0.3)' }}>
+                <span key={tech} className="font-syne text-3xl md:text-7xl font-bold text-transparent" style={{ WebkitTextStroke: '1px rgba(26,26,26,0.3)' }}>
                   {tech}
                 </span>
               ))}
@@ -192,10 +197,16 @@ export default function Home() {
       {/* Stats Section */}
       <section className="py-16 md:py-32 px-6 relative z-20">
         <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-3 gap-4 md:gap-12">
+          <div className="text-center mb-12">
+            <span className="text-[10px] md:text-xs tracking-[0.2em] uppercase font-syne font-bold text-[#1a1a1a]/40">
+              Academic &amp; Development Metrics · Coimbatore, IN
+            </span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12">
             {[
               { label: "Solved", value: siteConfig.stats.leetcode, sub: "LeetCode" },
               { label: "OSS", value: siteConfig.stats.githubRepos, sub: "Repos" },
+              { label: "CGPA", value: "7.9", sub: "KPRIET (3rd Year)" },
               { label: "EXP", value: siteConfig.stats.experienceMonths, sub: "Years" }
             ].map((stat, i) => (
               <motion.div

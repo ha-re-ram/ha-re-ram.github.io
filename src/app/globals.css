@@ -139,11 +139,13 @@ body {
 }
 
 .animate-marquee {
-  animation: marquee 40s linear infinite;
+  animation: marquee 25s linear infinite;
+  will-change: transform;
 }
 
 .animate-ticker {
-  animation: ticker 60s linear infinite;
+  animation: ticker 30s linear infinite;
+  will-change: transform;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
