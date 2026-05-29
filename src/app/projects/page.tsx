@@ -4,10 +4,15 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Projects",
-    description: "A collection of systems and applications built by Hareram Kushwaha, ranging from web architectures to low-level OS experiments.",
+    description: "Explore the technical projects built by Hareram Kushwaha, including full stack applications, web architectures, and system engineering experiments.",
+    alternates: {
+        canonical: "/projects",
+    },
     openGraph: {
         title: "Projects | Hareram Kushwaha",
-        description: "A collection of systems and applications built by Hareram Kushwaha.",
+        description: "Explore the technical projects built by Hareram Kushwaha.",
+        url: "https://hareramkushwaha.name.np/projects",
+        type: "website",
     },
 };
 

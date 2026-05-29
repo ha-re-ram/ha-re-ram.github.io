@@ -1,7 +1,7 @@
 export const siteConfig = {
-    title: "Hareram Kushwaha | Evolving Software Engineer",
-    description: "Hareram Kushwaha is a Computer Science student at KPRIET, building scalable backend systems and high-performance digital solutions. Evolving from academic foundations to professional engineering.",
-    bio: "A Computer Science student at KPRIET with a passion for architecting scalable systems. I bridge the gap between academic theory and professional engineering, focusing on clean, maintainable code and solving complex computational challenges.",
+    title: "Hareram Kushwaha | CS Engineering Student & Full Stack Developer",
+    description: "Hareram Kushwaha is a Computer Science Engineering student, Full Stack Developer, and Problem Solver specializing in building scalable backend systems and high-performance digital solutions.",
+    bio: "A Computer Science Engineering student at KPRIET with a passion for architecting scalable systems. Evolving from academic foundations to professional engineering, focusing on clean, maintainable code and solving complex computational challenges as a dedicated Problem Solver.",
     author: "Hareram Kushwaha",
     resumeUrl: "https://ha-re-ram.github.io/Resume/",
     resumeSource: "https://github.com/ha-re-ram/Resume",
@@ -37,7 +37,7 @@ export const siteConfig = {
             "/images/IMG_20260221_112735.jpg"
         ]
     },
-    url: "https://hareramkushwaha.com.np",
+    url: "https://hareramkushwaha.name.np",
     stats: {
         leetcode: "250+",
         githubRepos: "40+",

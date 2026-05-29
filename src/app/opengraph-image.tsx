@@ -55,14 +55,14 @@ export default async function Image() {
                     </h1>
                     <p
                         style={{
-                            fontSize: 40,
+                            fontSize: 45,
                             margin: 0,
                             color: '#888',
                             textAlign: 'center',
                             lineHeight: 1.5,
                         }}
                     >
-                        Software Engineer & System Builder
+                        CS Student | Full-Stack Developer | Problem Solver
                     </p>
                     <div
                         style={{

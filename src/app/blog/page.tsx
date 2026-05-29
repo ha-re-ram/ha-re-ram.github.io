@@ -3,10 +3,15 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Blog",
-    description: "Read the latest writings, insights, and thoughts on software engineering by Hareram Kushwaha.",
+    description: "Read the latest tech articles, tutorials, and computer science engineering insights by Hareram Kushwaha.",
+    alternates: {
+        canonical: "/blog",
+    },
     openGraph: {
         title: "Blog | Hareram Kushwaha",
-        description: "Read the latest writings and insights by Hareram Kushwaha.",
+        description: "Read the latest tech articles and computer science insights by Hareram Kushwaha.",
+        url: "https://hareramkushwaha.name.np/blog",
+        type: "website",
     },
 };
 

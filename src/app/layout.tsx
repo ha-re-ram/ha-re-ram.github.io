@@ -28,14 +28,15 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: [
     "Hareram Kushwaha",
+    "Computer Science Engineering",
+    "Full-Stack Developer",
+    "Problem Solver",
+    "Systems Architect",
     "Software Engineer",
-    "Computer Science",
     "Next.js",
     "React",
+    "TypeScript",
     "Portfolio",
-    "Full-Stack Developer",
-    "Web Development",
-    "MERN Stack",
   ],
   authors: [{ name: siteConfig.author, url: siteConfig.url }],
   creator: siteConfig.author,
@@ -66,12 +67,21 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     siteName: siteConfig.title,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Hareram Kushwaha - Personal Portfolio",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.title,
     description: siteConfig.description,
     creator: "@" + siteConfig.social.twitter,
+    images: ["/opengraph-image"],
   },
   icons: {
     icon: "/icon.svg",
@@ -89,8 +99,19 @@ export default function RootLayout({
     name: siteConfig.author,
     image: `${siteConfig.url}/opengraph-image`,
     url: siteConfig.url,
-    jobTitle: "Software Engineer",
-    description: siteConfig.description,
+    jobTitle: "Full Stack Developer",
+    description: "Computer Science Engineering student, Full stack developer, and Problem Solver specializing in scalable backend systems and high-performance digital solutions.",
+    alumniOf: {
+      "@type": "EducationalOrganization",
+      name: "KPRIET"
+    },
+    knowsAbout: [
+      "Computer Science Engineering",
+      "Full Stack Development",
+      "Software Engineering",
+      "System Architecture",
+      "Problem Solving"
+    ],
     sameAs: [
       `https://github.com/${siteConfig.social.github}`,
       `https://linkedin.com/in/${siteConfig.social.linkedin}`,
