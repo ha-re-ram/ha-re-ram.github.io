@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: "Article | Hareram Kushwaha",
         description: "Read detailed deep-dives and software engineering articles by Hareram Kushwaha.",
-        url: "https://hareramkushwaha.name.np/article",
+        url: "https://hareramkushwaha.com.np/article",
         type: "article",
     },
 };

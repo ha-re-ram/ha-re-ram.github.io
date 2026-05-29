@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: "Projects | Hareram Kushwaha",
         description: "Explore the technical projects built by Hareram Kushwaha.",
-        url: "https://hareramkushwaha.name.np/projects",
+        url: "https://hareramkushwaha.com.np/projects",
         type: "website",
     },
 };

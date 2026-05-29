@@ -3,7 +3,7 @@
 A premium, high-performance personal portfolio built with **Next.js 15 (App Router)** and **Tailwind CSS**. Designed for speed, aesthetics, and adaptability, featuring a fully integrated custom **Firebase CMS** for real-time content management.
 
 ## 🌐 Live Presence
-- **Website**: [hareramkushwaha.name.np](https://hareramkushwaha.name.np)
+- **Website**: [hareramkushwaha.com.np](https://hareramkushwaha.com.np)
 - **LinkedIn**: [linkedin.com/in/ha-re-ram](https://linkedin.com/in/ha-re-ram)
 - **GitHub**: [github.com/ha-re-ram](https://github.com/ha-re-ram)
 
