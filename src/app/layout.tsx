@@ -5,6 +5,7 @@ import { siteConfig } from "@/lib/config";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TerminalEasterEgg from "@/components/TerminalEasterEgg";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const cormorant = Cormorant_Garamond({
@@ -123,6 +124,18 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${cormorant.variable} ${syne.variable} font-sans bg-[#E5D5D0] text-[#1a1a1a] antialiased min-h-screen relative`} suppressHydrationWarning>
         <div className="noise"></div>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-HGZW5VR7ZD"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-HGZW5VR7ZD');
+          `}
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
