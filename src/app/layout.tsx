@@ -5,6 +5,8 @@ import { siteConfig } from "@/lib/config";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TerminalEasterEgg from "@/components/TerminalEasterEgg";
+import ScrollToTop from "@/components/ScrollToTop";
+import { ToastProvider } from "@/lib/toast";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const cormorant = Cormorant_Garamond({
@@ -112,7 +114,7 @@ export default function RootLayout({
     image: `${siteConfig.url}/opengraph-image`,
     url: siteConfig.url,
     jobTitle: "Full Stack Developer",
-    description: "Computer Science Engineering student, Full stack developer, and Problem Solver specializing in scalable backend systems and high-performance digital solutions.",
+    description: "Final-year Computer Science Engineering student (Semester VII, KPRIET), Full stack developer, and Problem Solver specializing in scalable backend systems and high-performance digital solutions.",
     alumniOf: {
       "@type": "EducationalOrganization",
       name: "KPRIET"
@@ -154,10 +156,13 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Navbar />
-        <div className="pt-16 md:pt-0">{children}</div>
-        <Footer />
-        <TerminalEasterEgg />
+        <ToastProvider>
+          <Navbar />
+          <div className="pt-16 md:pt-0">{children}</div>
+          <Footer />
+          <ScrollToTop />
+          <TerminalEasterEgg />
+        </ToastProvider>
       </body>
     </html>
   );

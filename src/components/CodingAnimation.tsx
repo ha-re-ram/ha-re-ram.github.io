@@ -1,37 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code2, Terminal, Cpu, Database, Globe, Layers, Zap, Braces, Binary } from "lucide-react";
-import { useEffect, useState } from "react";
-
-const icons = [Code2, Terminal, Cpu, Database, Globe, Layers, Zap, Braces, Binary];
 
 export default function CodingAnimation() {
-  const [mounted, setMounted] = useState(false);
-  const [randomValues, setRandomValues] = useState<any[]>([]);
-
-  useEffect(() => {
-    setMounted(true);
-    const values = icons.map(() => ({
-      initialX: Math.random() * 100 - 50 + "%",
-      initialY: Math.random() * 100 - 50 + "%",
-      animateX: [
-        Math.random() * 100 - 50 + "%",
-        Math.random() * 100 - 50 + "%",
-        Math.random() * 100 - 50 + "%"
-      ],
-      animateY: [
-        Math.random() * 100 - 50 + "%",
-        Math.random() * 100 - 50 + "%",
-        Math.random() * 100 - 50 + "%"
-      ],
-      duration: 10 + Math.random() * 10,
-      size: 30 + Math.random() * 50,
-      color: Math.random() > 0.7 ? "text-[#1a1a1a]/20" : Math.random() > 0.5 ? "text-[#d97706]/20" : "text-[#0d9488]/20"
-    }));
-    setRandomValues(values);
-  }, []);
-
   return (
     <div className="relative w-full h-full flex items-center justify-center scale-110 lg:scale-125">
       {/* Main Video Terminal Window */}

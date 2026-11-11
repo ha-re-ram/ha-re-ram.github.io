@@ -5,8 +5,6 @@ import { siteConfig } from "@/lib/config";
 import { motion } from "framer-motion";
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
     <footer className="py-12 md:py-20 px-6 border-t border-[#1a1a1a]/5 bg-[#E5D5D0]">
       <div className="max-w-7xl mx-auto">
@@ -44,7 +42,7 @@ export default function Footer() {
 
         <div className="pt-8 border-t border-[#1a1a1a]/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="font-syne text-[10px] uppercase tracking-[0.2em] text-[#1a1a1a]/40">
-            © 2025 Hareram Kushwaha. All Rights Reserved.
+            © 2024 Hareram Kushwaha. All Rights Reserved.
           </p>
           <div className="flex gap-8 items-center">
             <span className="font-cormorant italic text-sm text-[#1a1a1a]/40 italic">

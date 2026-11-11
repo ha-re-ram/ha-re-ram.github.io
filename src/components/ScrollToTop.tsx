@@ -7,15 +7,19 @@ export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
     const toggleVisibility = () => {
-      if (window.scrollY > 400) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsVisible(window.scrollY > 400);
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener("scroll", toggleVisibility);
+    window.addEventListener("scroll", toggleVisibility, { passive: true });
+    toggleVisibility();
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
@@ -30,11 +34,12 @@ export default function ScrollToTop() {
     <AnimatePresence>
       {isVisible && (
         <motion.button
+          data-scroll-state="visible"
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 left-8 z-[100] w-12 h-12 bg-white/40 backdrop-blur-xl border border-white/50 rounded-full flex items-center justify-center text-[#1a1a1a] shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:bg-[#1a1a1a] hover:text-[#E5D5D0] hover:border-transparent transition-all group"
+          className="fixed bottom-8 left-8 z-[100] w-12 h-12 bg-white/40 backdrop-blur-xl border border-white/50 rounded-full flex items-center justify-center text-[#1a1a1a] shadow-[0_10px_30px_rgba(0,0,0,0.1)] hover:bg-[#1a1a1a] hover:text-[#E5D5D0] hover:border-transparent transition-all group cursor-pointer"
           aria-label="Scroll to top"
         >
           <svg

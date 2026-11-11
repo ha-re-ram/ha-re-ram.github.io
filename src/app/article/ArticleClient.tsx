@@ -1,14 +1,21 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import { doc, getDoc, collection, query, orderBy, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import ReactMarkdown from "react-markdown";
 import Comments from "@/components/Comments";
 import { motion, useScroll, useSpring } from "framer-motion";
 import Link from "next/link";
-import { Clock, List, ChevronLeft, ChevronRight, ArrowLeft } from "lucide-react";
+import { Clock, List, ChevronLeft, ChevronRight, ArrowLeft, RefreshCw, AlertCircle } from "lucide-react";
+import { useArticleReaderMachine } from "@/lib/machines/articleReaderMachine";
+
+function extractText(children: any): string {
+  if (!children) return "";
+  if (typeof children === "string" || typeof children === "number") return String(children);
+  if (Array.isArray(children)) return children.map(extractText).join("");
+  if (children.props?.children) return extractText(children.props.children);
+  return "";
+}
 
 interface ArticleClientProps {
   id: string;
@@ -17,77 +24,80 @@ interface ArticleClientProps {
 
 export default function ArticleClient({ id, type }: ArticleClientProps) {
   const router = useRouter();
-  const [article, setArticle] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [toc, setToc] = useState<{ id: string; text: string }[]>([]);
-  const [adjacent, setAdjacent] = useState<{ prev: any; next: any }>({ prev: null, next: null });
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const {
+    status,
+    article,
+    toc,
+    adjacent,
+    activeSectionId,
+    errorMessage,
+    isLoading,
+    isNotFound,
+    isError,
+    retry,
+  } = useArticleReaderMachine(id, type);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
-
-  useEffect(() => {
-    const fetchArticleAndAdjacent = async () => {
-      if (!id || !db) {
-        setLoading(false);
-        return;
-      }
-      try {
-        // Fetch current article
-        const docRef = doc(db, type, id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          setArticle({ id: docSnap.id, ...data });
-
-          // Extract TOC from content (## headings)
-          const content = data.content || "";
-          const headings = content.match(/^##\s+(.+)$/gm);
-          if (headings) {
-            const tocItems = headings.map((h: string) => {
-              const text = h.replace(/^##\s+/, "");
-              const id = text.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
-              return { id, text };
-            });
-            setToc(tocItems);
-          }
-        }
-
-        // Fetch adjacent articles
-        const q = query(collection(db, type), orderBy("date", "desc"));
-        const querySnapshot = await getDocs(q);
-        const articles: any[] = [];
-        querySnapshot.forEach((doc) => {
-          articles.push({ id: doc.id, title: doc.data().title });
-        });
-        
-        const currentIndex = articles.findIndex(a => a.id === id);
-        if (currentIndex !== -1) {
-          setAdjacent({
-            next: currentIndex > 0 ? articles[currentIndex - 1] : null,
-            prev: currentIndex < articles.length - 1 ? articles[currentIndex + 1] : null
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching article or adjacent", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchArticleAndAdjacent();
-  }, [id, type]);
 
   const calculateReadTime = (content: string) => {
     const words = content.trim().split(/\s+/).length;
     return Math.max(1, Math.ceil(words / 200));
   };
 
-  if (loading) return <div className="text-center py-32 text-[#1a1a1a]/40 font-syne font-bold uppercase tracking-widest text-sm animate-pulse">Loading article...</div>;
-  if (!article) return <div className="text-center py-32 text-red-500/80 font-syne font-bold uppercase tracking-widest text-sm">Article not found</div>;
+  if (isLoading) {
+    return (
+      <div
+        data-article-status="loading"
+        className="text-center py-32 text-[#1a1a1a]/40 font-syne font-bold uppercase tracking-widest text-sm animate-pulse"
+      >
+        Loading article...
+      </div>
+    );
+  }
+
+  if (isNotFound || !article) {
+    return (
+      <div data-article-status="not_found" className="text-center py-32 space-y-6">
+        <h2 className="text-4xl font-syne font-bold uppercase tracking-tight text-[#1a1a1a]">
+          Article Not Found
+        </h2>
+        <p className="text-[#1a1a1a]/60 font-cormorant italic text-xl">
+          The requested article could not be located or may have been moved.
+        </p>
+        <button
+          onClick={() => router.back()}
+          className="inline-flex items-center gap-2 px-8 py-3 bg-[#1a1a1a] text-[#E5D5D0] rounded-full font-syne font-bold uppercase tracking-widest text-xs hover:scale-105 transition-transform"
+        >
+          <ArrowLeft className="w-4 h-4" /> Go Back
+        </button>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div data-article-status="error" className="text-center py-32 space-y-6">
+        <AlertCircle className="w-12 h-12 text-rose-500/70 mx-auto" />
+        <h2 className="text-3xl font-syne font-bold uppercase tracking-tight text-[#1a1a1a]">
+          Error Loading Article
+        </h2>
+        <p className="text-[#1a1a1a]/60 font-cormorant italic text-lg">{errorMessage}</p>
+        <button
+          onClick={retry}
+          className="inline-flex items-center gap-2 px-8 py-3 bg-[#1a1a1a] text-[#E5D5D0] rounded-full font-syne font-bold uppercase tracking-widest text-xs hover:scale-105 transition-transform"
+        >
+          <RefreshCw className="w-4 h-4" /> Retry
+        </button>
+      </div>
+    );
+  }
 
   const readTime = calculateReadTime(article.content || "");
 
@@ -99,7 +109,11 @@ export default function ArticleClient({ id, type }: ArticleClientProps) {
         style={{ scaleX }}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+      <div
+        data-article-status="success"
+        data-active-heading={activeSectionId}
+        className="grid grid-cols-1 lg:grid-cols-12 gap-16"
+      >
         {/* TOC Sidebar (Desktop) */}
         <aside className="hidden lg:block lg:col-span-3 sticky top-32 h-fit">
           <div className="bg-white/30 backdrop-blur-xl border border-white/40 p-8 rounded-[2.5rem] shadow-sm">
@@ -107,17 +121,31 @@ export default function ArticleClient({ id, type }: ArticleClientProps) {
               <List className="w-5 h-5 text-[#1a1a1a]/40" />
               Contents
             </h3>
-            <nav className="space-y-4">
+            <nav className="space-y-4" aria-label="Table of contents">
               {toc.length > 0 ? (
-                toc.map((item) => (
-                  <a
-                    key={item.id}
-                    href={`#${item.id}`}
-                    className="block font-cormorant italic text-lg text-[#1a1a1a]/60 hover:text-[#1a1a1a] hover:translate-x-2 transition-all"
-                  >
-                    {item.text}
-                  </a>
-                ))
+                toc.map((item) => {
+                  const isActive = activeSectionId === item.id;
+                  return (
+                    <a
+                      key={item.id}
+                      href={`#${item.id}`}
+                      aria-current={isActive ? "location" : undefined}
+                      data-toc-active={isActive}
+                      className={`block font-cormorant italic text-lg transition-all flex items-center gap-2 ${
+                        isActive
+                          ? "text-[#1a1a1a] font-semibold translate-x-2"
+                          : "text-[#1a1a1a]/50 hover:text-[#1a1a1a] hover:translate-x-1"
+                      }`}
+                    >
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full transition-all ${
+                          isActive ? "bg-[#1a1a1a] scale-125" : "bg-transparent"
+                        }`}
+                      />
+                      {item.text}
+                    </a>
+                  );
+                })
               ) : (
                 <p className="font-cormorant italic text-[#1a1a1a]/40">No subheadings found.</p>
               )}
@@ -129,7 +157,7 @@ export default function ArticleClient({ id, type }: ArticleClientProps) {
         <div className="lg:col-span-9 max-w-4xl mx-auto w-full">
           <button
             onClick={() => router.back()}
-            className="mb-16 text-[#1a1a1a]/60 hover:text-[#1a1a1a] flex items-center gap-4 transition-colors font-syne font-bold uppercase tracking-widest text-xs group"
+            className="mb-16 text-[#1a1a1a]/60 hover:text-[#1a1a1a] flex items-center gap-4 transition-colors font-syne font-bold uppercase tracking-widest text-xs group cursor-pointer"
           >
             <span className="w-10 h-10 rounded-full border border-[#1a1a1a]/10 flex items-center justify-center group-hover:bg-[#1a1a1a] group-hover:text-[#E5D5D0] transition-all">
               <ArrowLeft className="w-4 h-4" />
@@ -140,20 +168,24 @@ export default function ArticleClient({ id, type }: ArticleClientProps) {
           <header className="mb-20">
             <div className="flex flex-wrap items-center gap-6 mb-10">
               <span className="font-syne font-black uppercase tracking-[0.3em] text-[10px] text-[#1a1a1a]/40 bg-white/40 px-4 py-2 rounded-full border border-white/60">
-                {new Date(article.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                {new Date(article.date).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
               </span>
               <div className="flex items-center gap-2 font-syne font-bold uppercase tracking-widest text-[10px] text-[#1a1a1a]/60">
                 <Clock className="w-4 h-4" />
                 {readTime} MIN READ
               </div>
             </div>
-            
+
             <h1 className="text-[clamp(2.5rem,10vw,6rem)] md:text-7xl lg:text-8xl font-syne font-black mb-8 uppercase tracking-tighter text-[#1a1a1a] leading-tight md:leading-[0.9]">
               {article.title}
             </h1>
           </header>
 
-          <div 
+          <div
             ref={contentRef}
             className="mb-32 prose prose-xl prose-neutral max-w-none 
               prose-p:text-[#4a4a4a] prose-p:font-light prose-p:leading-relaxed 
@@ -167,10 +199,13 @@ export default function ArticleClient({ id, type }: ArticleClientProps) {
             <ReactMarkdown
               components={{
                 h2: ({ node, ...props }) => {
-                  const text = props.children?.toString() || "";
-                  const id = text.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
-                  return <h2 id={id} {...props} />;
-                }
+                  const text = extractText(props.children);
+                  const headingId = text
+                    .toLowerCase()
+                    .replace(/[^\w\s-]/g, "")
+                    .replace(/\s+/g, "-");
+                  return <h2 id={headingId} {...props} />;
+                },
               }}
             >
               {article.content}
@@ -180,26 +215,30 @@ export default function ArticleClient({ id, type }: ArticleClientProps) {
           {/* Adjacent Navigation */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-32 pt-16 border-t border-[#1a1a1a]/10">
             {adjacent.prev && (
-              <Link 
+              <Link
                 href={`/article?id=${adjacent.prev.id}&type=${type}`}
                 className="group flex flex-col p-8 bg-white/20 backdrop-blur-xl border border-white/40 rounded-[2.5rem] hover:bg-white/40 transition-all text-left"
               >
                 <span className="flex items-center gap-2 font-syne font-bold uppercase tracking-widest text-[10px] text-[#1a1a1a]/30 mb-4 group-hover:-translate-x-2 transition-transform">
                   <ChevronLeft className="w-3 h-3" /> Previous
                 </span>
-                <span className="font-syne font-bold text-xl uppercase tracking-tight text-[#1a1a1a]">{adjacent.prev.title}</span>
+                <span className="font-syne font-bold text-xl uppercase tracking-tight text-[#1a1a1a]">
+                  {adjacent.prev.title}
+                </span>
               </Link>
             )}
             <div className={adjacent.prev ? "" : "md:col-start-2"}>
               {adjacent.next && (
-                <Link 
+                <Link
                   href={`/article?id=${adjacent.next.id}&type=${type}`}
                   className="group flex flex-col p-8 bg-white/20 backdrop-blur-xl border border-white/40 rounded-[2.5rem] hover:bg-white/40 transition-all text-right"
                 >
                   <span className="flex items-center gap-2 justify-end font-syne font-bold uppercase tracking-widest text-[10px] text-[#1a1a1a]/30 mb-4 group-hover:translate-x-2 transition-transform">
                     Next <ChevronRight className="w-3 h-3" />
                   </span>
-                  <span className="font-syne font-bold text-xl uppercase tracking-tight text-[#1a1a1a]">{adjacent.next.title}</span>
+                  <span className="font-syne font-bold text-xl uppercase tracking-tight text-[#1a1a1a]">
+                    {adjacent.next.title}
+                  </span>
                 </Link>
               )}
             </div>

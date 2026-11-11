@@ -34,7 +34,9 @@ export default function About() {
                     // Sort by order or date
                     data.sort((a, b) => {
                         if (a.order !== undefined && b.order !== undefined) return a.order - b.order;
-                        return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
+                        const timeB = new Date(b.date || 0).getTime();
+                        const timeA = new Date(a.date || 0).getTime();
+                        return (isNaN(timeB) ? 0 : timeB) - (isNaN(timeA) ? 0 : timeA);
                     });
                     setCerts(data);
                 } else {
@@ -146,7 +148,7 @@ export default function About() {
                                     I build systems that don't just work, but <span className="font-syne not-italic font-bold tracking-tight uppercase text-lg md:text-3xl bg-white/40 px-3 py-1 rounded-xl inline-block mt-2 md:mt-0">scale and endure</span>.
                                 </p>
                                 <p className="text-xl text-[#4a4a4a] leading-relaxed font-light mb-6 border-l-2 border-[#1a1a1a]/20 pl-6">
-                                    I am <span className="font-syne font-bold uppercase tracking-widest text-sm text-[#1a1a1a]">Hareram Kushwaha</span>, a Computer Science Engineering student at KPR Institute of Engineering and Technology.
+                                    I am <span className="font-syne font-bold uppercase tracking-widest text-sm text-[#1a1a1a]">Hareram Kushwaha</span>, a final-year Computer Science Engineering student (Semester VII) at KPR Institute of Engineering and Technology.
                                 </p>
                                 <p className="text-lg text-[#4a4a4a] leading-relaxed font-light pl-6">
                                     My philosophy is simple: write correct, readable code and never stop solving complex problems. I bridge the gap between heavy backend logic and seamless, beautiful user interfaces.
@@ -222,16 +224,16 @@ export default function About() {
                     <div className="flex flex-col">
                         <ExperienceCard
                             company="KPR Institute of Engineering and Technology"
-                            role="B.E. Computer Science and Engineering"
-                            period="2023 — 2027"
-                            description="Focused on core computer science principles including Data Structures, Algorithms, Operating Systems, and Database Management Systems. Maintaining a strong academic record while building real-world projects."
+                            role="B.E. Computer Science and Engineering — VII Semester (Final Year)"
+                            period="Sep 2023 — Sep 2027"
+                            description="Focusing on Distributed Systems, Cloud Architecture, and Database Internals while maintaining a 7.9 CGPA through Semester VII. Bridging foundational computer science with production-ready full stack engineering."
                             isFirst={false}
                         />
                     </div>
                 </motion.section>
 
                 {/* Certifications Section */}
-                <motion.section variants={fadeIn} className="mb-20 md:mb-32">
+                <motion.section variants={fadeIn} data-certs-status={loadingCerts ? "loading" : "ready"} className="mb-20 md:mb-32">
                     <h2 className="text-sm uppercase tracking-[0.4em] font-syne font-bold mb-12 flex items-center gap-4 text-[#1a1a1a]/60">
                         <span className="w-12 h-px bg-[#1a1a1a]/20"></span>
                         Certifications
@@ -262,7 +264,7 @@ export default function About() {
                 </motion.section>
 
                 {/* Selected Work Summary */}
-                <motion.section variants={fadeIn} className="mb-20 md:mb-32">
+                <motion.section variants={fadeIn} data-projects-status={loadingProjects ? "loading" : "ready"} className="mb-20 md:mb-32">
                     <div className="flex justify-between items-end mb-12">
                         <h2 className="text-5xl md:text-6xl font-syne font-black uppercase tracking-tighter">Selected <span className="font-cormorant italic font-light lowercase">Work</span></h2>
                         <Link href="/projects" className="text-[#1a1a1a] font-syne font-bold uppercase tracking-widest text-sm hover:opacity-60 transition-colors flex items-center gap-2 group pb-2">

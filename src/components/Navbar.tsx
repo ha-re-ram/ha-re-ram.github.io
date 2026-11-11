@@ -1,29 +1,24 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/config";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useDisclosure } from "@/lib/machines/disclosureMachine";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, close, toggle, ariaProps } = useDisclosure({
+    lockBodyScroll: true,
+    closeOnEscape: true,
+  });
 
   // Close menu on route change
   useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
-
-  // Prevent scroll when menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [isOpen]);
+    close();
+  }, [pathname, close]);
 
   const navLinks = [
     { name: "About", href: "/about" },
@@ -67,8 +62,10 @@ export default function Navbar() {
         {/* Mobile Toggle */}
         <button
           className="md:hidden relative z-[110] flex items-center justify-center p-2 -mr-2 hover:bg-[#1a1a1a]/5 rounded-full transition-colors"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={toggle}
           aria-label="Toggle Menu"
+          aria-controls="mobile-navigation"
+          {...ariaProps}
         >
           {isOpen ? <X size={24} strokeWidth={2.5} /> : <Menu size={24} strokeWidth={2.5} />}
         </button>
@@ -77,6 +74,8 @@ export default function Navbar() {
         <AnimatePresence>
           {isOpen && (
             <motion.div
+              id="mobile-navigation"
+              data-state="open"
               initial={{ opacity: 0, x: '100%' }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
@@ -122,7 +121,7 @@ export default function Navbar() {
 
               {/* Decorative elements in mobile menu */}
               <div className="absolute bottom-12 left-0 right-0 text-center text-[10px] font-syne font-bold uppercase tracking-[0.4em] text-[#1a1a1a]/10">
-                Hareram Kushwaha &bull; 2025
+                Hareram Kushwaha &bull; 2024
               </div>
             </motion.div>
           )}

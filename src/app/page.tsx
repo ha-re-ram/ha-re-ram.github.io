@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { siteConfig } from "@/lib/config";
@@ -19,59 +18,21 @@ import {
 } from "lucide-react";
 
 import HeroVideo from "@/components/HeroVideo";
+import { TypewriterBadge } from "@/components/TypewriterBadge";
+
+const credentialWords = [
+  "Open to Opportunities",
+  "Final Year CS @ KPRIET (VII Sem)",
+  "Full Stack Developer",
+  "Software Developer",
+  "Problem Solver",
+  "Nepal → Building Things"
+];
 
 export default function Home() {
-  // Typewriter animation state machine for credentials
-  const words = [
-    "Open to Opportunities",
-    "CS Student @ KPRIET",
-    "Full Stack Developer",
-    "Software Developer",
-    "Problem Solver",
-    "Nepal → Building Things"
-  ];
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [currentText, setCurrentText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [typingSpeed, setTypingSpeed] = useState(100);
-
-  useEffect(() => {
-    let timer: any;
-    const handleType = () => {
-      const fullWord = words[currentWordIndex];
-      if (!isDeleting) {
-        // Typing letters
-        setCurrentText(fullWord.substring(0, currentText.length + 1));
-        setTypingSpeed(75); // fast typing speed
-
-        if (currentText === fullWord) {
-          // Pause at full word
-          timer = setTimeout(() => setIsDeleting(true), 2000);
-          return;
-        }
-      } else {
-        // Erasing letters
-        setCurrentText(fullWord.substring(0, currentText.length - 1));
-        setTypingSpeed(35); // faster erasing speed
-
-        if (currentText === "") {
-          setIsDeleting(false);
-          setCurrentWordIndex((prev) => (prev + 1) % words.length);
-          setTypingSpeed(150); // slight pause before next word
-          return;
-        }
-      }
-
-      timer = setTimeout(handleType, typingSpeed);
-    };
-
-    timer = setTimeout(handleType, typingSpeed);
-    return () => clearTimeout(timer);
-  }, [currentText, isDeleting, currentWordIndex]);
-
   const fadeUp: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }
   };
 
   const staggerContainer: Variants = {
@@ -79,31 +40,45 @@ export default function Home() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15
+        staggerChildren: 0.08
       }
     }
   };
 
-  const skills = [
-    { name: "Java", icon: <Coffee className="w-5 h-5" /> },
-    { name: "JavaScript", icon: <Code2 className="w-5 h-5" /> },
-    { name: "React", icon: <Layers className="w-5 h-5" /> },
-    { name: "Node.js", icon: <Server className="w-5 h-5" /> },
-    { name: "MongoDB", icon: <Database className="w-5 h-5" /> },
-    { name: "MySQL", icon: <Database className="w-5 h-5" /> },
-    { name: "PHP", icon: <Globe className="w-5 h-5" /> },
-    { name: "Python", icon: <Terminal className="w-5 h-5" /> },
-    { name: "Git", icon: <GitBranch className="w-5 h-5" /> },
+  const row1Skills = [
+    { name: "Java", icon: <Coffee className="w-4 h-4 text-amber-800/80" /> },
+    { name: "JavaScript", icon: <Code2 className="w-4 h-4 text-amber-600" /> },
+    { name: "React", icon: <Layers className="w-4 h-4 text-cyan-700" /> },
+    { name: "Python", icon: <Terminal className="w-4 h-4 text-emerald-700" /> },
+    { name: "Node.js", icon: <Server className="w-4 h-4 text-green-700" /> },
+    { name: "PHP", icon: <Globe className="w-4 h-4 text-blue-700" /> },
+  ];
+
+  const row2Skills = [
+    { name: "MongoDB", icon: <Database className="w-4 h-4 text-emerald-700" /> },
+    { name: "MySQL", icon: <Database className="w-4 h-4 text-sky-700" /> },
+    { name: "Git", icon: <GitBranch className="w-4 h-4 text-orange-700" /> },
+    { name: "Algorithms & DS", icon: <Cpu className="w-4 h-4 text-purple-700" /> },
+    { name: "System Design", icon: <Workflow className="w-4 h-4 text-stone-700" /> },
   ];
 
   return (
     <main className="min-h-screen text-[#1a1a1a] relative overflow-hidden selection:bg-[#1a1a1a] selection:text-[#E5D5D0]">
-      {/* Soft Vignette/Glow overlay for the edge surreal feel */}
-      <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_150px_rgba(255,255,255,0.4)] z-10 mix-blend-overlay"></div>
-
-      {/* 3D-like floating orb gradients */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#f8e1da] blur-[100px] rounded-full animate-blob pointer-events-none opacity-60 mix-blend-multiply" />
-      <div className="absolute top-[30%] right-[-10%] w-[40%] h-[40%] bg-[#d9e4eb] blur-[120px] rounded-full animate-blob [animation-delay:3s] pointer-events-none opacity-60 mix-blend-multiply" />
+      {/* Lightweight GPU-friendly ambient glow orbs without costly Gaussian blurs or mix-blend layers */}
+      <div
+        className="absolute top-[-10%] left-[-10%] w-[520px] h-[520px] rounded-full pointer-events-none opacity-40 -z-10"
+        style={{
+          background: "radial-gradient(circle, #f8e1da 0%, transparent 70%)",
+          transform: "translate3d(0,0,0)",
+        }}
+      />
+      <div
+        className="absolute top-[25%] right-[-5%] w-[480px] h-[480px] rounded-full pointer-events-none opacity-40 -z-10"
+        style={{
+          background: "radial-gradient(circle, #d9e4eb 0%, transparent 70%)",
+          transform: "translate3d(0,0,0)",
+        }}
+      />
 
       {/* Hero Section */}
       <section className="relative min-h-[auto] lg:min-h-screen flex items-center justify-center px-4 md:px-6 pt-20 lg:pt-32 pb-12 overflow-hidden z-20">
@@ -132,16 +107,7 @@ export default function Home() {
               
               <div className="flex flex-wrap items-center gap-2.5 md:gap-3 w-full">
                 {/* Single Premium Dynamic Typewriter Badge */}
-                <span className="inline-flex items-center gap-2.5 px-4.5 py-2.5 rounded-full border border-emerald-500/20 text-[10px] md:text-xs tracking-[0.1em] uppercase font-syne font-extrabold bg-emerald-500/10 backdrop-blur-md text-emerald-800 shadow-[0_4px_15px_rgba(16,185,129,0.05)] hover:scale-105 transition-all duration-300 flex-shrink-0 min-w-[210px] sm:min-w-[240px]">
-                  <span className="relative flex h-2 w-2 flex-shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
-                  </span>
-                  <span className="whitespace-nowrap flex items-center">
-                    {currentText}
-                    <span className="w-[1.5px] h-3.5 bg-emerald-700 animate-pulse inline-block ml-1">|</span>
-                  </span>
-                </span>
+                <TypewriterBadge words={credentialWords} />
               </div>
             </motion.div>
 
@@ -187,13 +153,13 @@ export default function Home() {
       </section>
 
       {/* Philosophy / Features Section */}
-      <section className="py-16 md:py-24 px-4 md:px-6 relative z-20 bg-white/20 backdrop-blur-3xl border-y border-white/30 text-left">
+      <section className="py-16 md:py-24 px-4 md:px-6 relative z-20 bg-white/30 backdrop-blur-md border-y border-white/40 text-left">
         <div className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col md:flex-row gap-8 md:gap-16 items-start"
           >
             <div className="flex-1">
@@ -212,47 +178,57 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Skills Ticker Section */}
-      <section className="py-12 md:py-24 px-4 md:px-6 relative z-20 overflow-hidden">
-        <div className="max-w-7xl mx-auto">
+      {/* Core Competencies / Technical Arsenal Showcase */}
+      <section className="py-16 md:py-24 relative z-20 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 mb-10">
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col items-center mb-8 md:mb-16"
+            transition={{ duration: 0.4 }}
+            className="flex flex-col items-center text-center"
           >
-            <h3 className="font-syne font-bold uppercase tracking-[0.3em] text-xs text-[#1a1a1a]/40 mb-4">Core Competencies</h3>
-            <div className="w-12 h-[1px] bg-[#1a1a1a]/20"></div>
+            <span className="text-[10px] md:text-xs font-syne font-black uppercase tracking-[0.35em] text-[#1a1a1a]/40 mb-3">
+              Core Competencies
+            </span>
+            <div className="w-12 h-[1px] bg-[#1a1a1a]/15 mb-3"></div>
+            <p className="text-sm md:text-base font-cormorant italic text-[#1a1a1a]/60">
+              Languages, architectures &amp; tools engineered for production
+            </p>
           </motion.div>
-
-          <div className="relative overflow-x-hidden">
-            <div className="flex gap-4 md:gap-6 animate-ticker hover:[animation-play-state:paused]">
-              {[...skills, ...skills, ...skills].map((skill, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 flex items-center gap-4 px-6 py-4 md:px-8 md:py-5 bg-white/40 backdrop-blur-md border border-white/50 rounded-2xl shadow-sm hover:shadow-md hover:bg-white/60 transition-all cursor-default"
-                >
-                  <span className="text-[#1a1a1a]/60">{skill.icon}</span>
-                  <span className="font-syne font-bold uppercase tracking-widest text-xs text-[#1a1a1a]">{skill.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
-      </section>
 
-      {/* Marquee Section */}
-      <section className="py-8 md:py-12 overflow-hidden relative z-20 opacity-80">
-        <div className="flex whitespace-nowrap animate-marquee">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="flex gap-8 md:gap-16 items-center px-4 md:px-8">
-              {['Java', 'JavaScript', 'React', 'Node.js', 'MongoDB', 'MySQL', 'PHP', 'Python', 'Git'].map((tech) => (
-                <span key={tech} className="font-syne text-5xl md:text-7xl font-bold text-transparent" style={{ WebkitTextStroke: '1px rgba(26,26,26,0.6)' }}>
-                  {tech}
+        {/* Dual-Track Tape with Edge-to-Edge Fade Mask */}
+        <div className="relative w-full overflow-hidden marquee-mask space-y-4 md:space-y-5">
+          {/* Track 1: Languages & Frontend (Moving Left) */}
+          <div className="flex w-max gap-3 md:gap-4 animate-ticker hover:[animation-play-state:paused] cursor-grab active:cursor-grabbing">
+            {[...row1Skills, ...row1Skills, ...row1Skills, ...row1Skills].map((skill, index) => (
+              <div
+                key={`t1-${index}`}
+                className="flex-shrink-0 flex items-center gap-3.5 px-6 py-3.5 bg-white/50 backdrop-blur-sm border border-white/70 rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.02)] hover:bg-white/80 hover:border-[#1a1a1a]/20 hover:scale-105 transition-all duration-300"
+              >
+                <span className="p-1.5 rounded-full bg-white/70 shadow-2xs">{skill.icon}</span>
+                <span className="font-syne font-bold uppercase tracking-widest text-[11px] text-[#1a1a1a]">
+                  {skill.name}
                 </span>
-              ))}
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
+
+          {/* Track 2: Backend, Data & Systems (Moving Right) */}
+          <div className="flex w-max gap-3 md:gap-4 animate-ticker-reverse hover:[animation-play-state:paused] cursor-grab active:cursor-grabbing">
+            {[...row2Skills, ...row2Skills, ...row2Skills, ...row2Skills].map((skill, index) => (
+              <div
+                key={`t2-${index}`}
+                className="flex-shrink-0 flex items-center gap-3.5 px-6 py-3.5 bg-white/50 backdrop-blur-sm border border-white/70 rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.02)] hover:bg-white/80 hover:border-[#1a1a1a]/20 hover:scale-105 transition-all duration-300"
+              >
+                <span className="p-1.5 rounded-full bg-white/70 shadow-2xs">{skill.icon}</span>
+                <span className="font-syne font-bold uppercase tracking-widest text-[11px] text-[#1a1a1a]">
+                  {skill.name}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -268,15 +244,15 @@ export default function Home() {
             {[
               { label: "Solved", value: siteConfig.stats.leetcode, sub: "LeetCode" },
               { label: "OSS", value: siteConfig.stats.githubRepos, sub: "Repos" },
-              { label: "CGPA", value: "7.9", sub: "KPRIET (3rd Year)" },
+              { label: "CGPA", value: "7.9", sub: "KPRIET (VII Sem / Final Year)" },
               { label: "EXP", value: siteConfig.stats.experienceMonths, sub: "Years" }
             ].map((stat, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ duration: 0.4, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
                 className="text-center group"
               >
                 <div className="font-syne font-black text-[clamp(2rem,8vw,4.5rem)] md:text-7xl uppercase tracking-tighter text-[#1a1a1a] mb-1 group-hover:scale-110 transition-transform duration-500">
@@ -297,10 +273,10 @@ export default function Home() {
       {/* Footer CTA */}
       <section className="py-16 md:py-32 px-4 md:px-6 text-center relative z-20">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.96 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-4xl mx-auto"
         >
           <div className="px-8 py-3 mx-auto bg-white/50 backdrop-blur-md border border-white/50 rounded-full flex items-center justify-center mb-8 md:mb-12 shadow-[0_20px_40px_rgba(0,0,0,0.05)] hover:scale-105 transition-transform duration-300 w-fit">

@@ -1,12 +1,21 @@
 "use client";
 
 import { siteConfig } from "@/lib/config";
-import { useForm, ValidationError } from "@formspree/react";
+import { ValidationError } from "@formspree/react";
+import { useContactFormMachine } from "@/lib/machines/contactFormMachine";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle, Linkedin, Github, Twitter } from "lucide-react";
 
 export default function Contact() {
-    const [state, handleSubmit] = useForm(siteConfig.contact.formspreeId);
+    const {
+        status,
+        isSubmitting,
+        isSuccess,
+        errors,
+        formKey,
+        handleSubmit,
+        reset
+    } = useContactFormMachine();
 
     return (
         <main className="min-h-screen py-20 md:py-32 px-6 sm:px-10 max-w-7xl mx-auto relative z-20">
@@ -88,10 +97,14 @@ export default function Contact() {
 
                 {/* Form */}
                 <div className="lg:col-span-7">
-                    <div className="bg-white/30 backdrop-blur-xl p-6 md:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/40 shadow-[0_20px_50px_rgba(0,0,0,0.03)] relative overflow-hidden">
+                    <div 
+                        data-form-status={status}
+                        className="bg-white/30 backdrop-blur-xl p-6 md:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/40 shadow-[0_20px_50px_rgba(0,0,0,0.03)] relative overflow-hidden"
+                    >
                         <AnimatePresence mode="wait">
-                            {state.succeeded ? (
+                            {isSuccess ? (
                                 <motion.div 
+                                    key="success-message"
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.9 }}
@@ -105,14 +118,16 @@ export default function Contact() {
                                         Thank you for reaching out. Your message has been transmitted successfully. I'll get back to you shortly.
                                     </p>
                                     <button 
-                                        onClick={() => window.location.reload()}
-                                        className="mt-8 px-8 py-4 bg-[#1a1a1a] text-[#E5D5D0] font-syne font-black uppercase tracking-widest text-xs rounded-full hover:scale-105 transition-transform"
+                                        type="button"
+                                        onClick={reset}
+                                        className="mt-8 px-8 py-4 bg-[#1a1a1a] text-[#E5D5D0] font-syne font-black uppercase tracking-widest text-xs rounded-full hover:scale-105 active:scale-95 transition-transform"
                                     >
                                         Send Another
                                     </button>
                                 </motion.div>
                             ) : (
                                 <motion.form 
+                                    key={`contact-form-${formKey}`}
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
@@ -130,7 +145,7 @@ export default function Contact() {
                                                 placeholder="e.g. Hareram Kushwaha"
                                                 className="w-full bg-white/50 border border-white/60 rounded-2xl p-5 text-[#1a1a1a] focus:outline-none focus:border-[#1a1a1a]/20 transition-all font-medium placeholder:text-[#1a1a1a]/20 shadow-sm"
                                             />
-                                            <ValidationError prefix="Name" field="name" errors={state.errors} className="text-red-500 text-[10px] uppercase font-bold ml-4 mt-1" />
+                                            <ValidationError prefix="Name" field="name" errors={errors} className="text-red-500 text-[10px] uppercase font-bold ml-4 mt-1" />
                                         </div>
                                         <div className="space-y-3">
                                             <label htmlFor="email" className="text-[10px] font-syne font-black uppercase tracking-widest text-[#1a1a1a]/40 ml-4">Email Address</label>
@@ -142,7 +157,7 @@ export default function Contact() {
                                                 placeholder="email@example.com"
                                                 className="w-full bg-white/50 border border-white/60 rounded-2xl p-5 text-[#1a1a1a] focus:outline-none focus:border-[#1a1a1a]/20 transition-all font-medium placeholder:text-[#1a1a1a]/20 shadow-sm"
                                             />
-                                            <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-500 text-[10px] uppercase font-bold ml-4 mt-1" />
+                                            <ValidationError prefix="Email" field="email" errors={errors} className="text-red-500 text-[10px] uppercase font-bold ml-4 mt-1" />
                                         </div>
                                     </div>
 
@@ -156,7 +171,7 @@ export default function Contact() {
                                             placeholder="How can I help you today?"
                                             className="w-full bg-white/50 border border-white/60 rounded-2xl p-5 text-[#1a1a1a] focus:outline-none focus:border-[#1a1a1a]/20 transition-all font-medium placeholder:text-[#1a1a1a]/20 shadow-sm"
                                         />
-                                        <ValidationError prefix="Subject" field="subject" errors={state.errors} className="text-red-500 text-[10px] uppercase font-bold ml-4 mt-1" />
+                                        <ValidationError prefix="Subject" field="subject" errors={errors} className="text-red-500 text-[10px] uppercase font-bold ml-4 mt-1" />
                                     </div>
 
                                     <div className="space-y-3">
@@ -169,15 +184,15 @@ export default function Contact() {
                                             placeholder="Provide details about your project..."
                                             className="w-full bg-white/50 border border-white/60 rounded-2xl p-5 text-[#1a1a1a] focus:outline-none focus:border-[#1a1a1a]/20 transition-all font-light leading-relaxed placeholder:text-[#1a1a1a]/20 shadow-sm text-base md:text-lg"
                                         />
-                                        <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-500 text-[10px] uppercase font-bold ml-4 mt-1" />
+                                        <ValidationError prefix="Message" field="message" errors={errors} className="text-red-500 text-[10px] uppercase font-bold ml-4 mt-1" />
                                     </div>
 
                                     <button
                                         type="submit"
-                                        disabled={state.submitting}
-                                        className="w-full bg-[#1a1a1a] text-[#E5D5D0] font-syne font-black uppercase tracking-[0.2em] text-sm py-5 rounded-full shadow-xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-3"
+                                        disabled={isSubmitting}
+                                        className="w-full bg-[#1a1a1a] text-[#E5D5D0] font-syne font-black uppercase tracking-[0.2em] text-sm py-5 rounded-full shadow-xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-3 cursor-pointer disabled:cursor-not-allowed"
                                     >
-                                        {state.submitting ? (
+                                        {isSubmitting ? (
                                             <>Transmitting...</>
                                         ) : (
                                             <>
@@ -187,7 +202,7 @@ export default function Contact() {
                                         )}
                                     </button>
 
-                                    {state.errors && (
+                                    {errors && (
                                         <motion.p 
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 export default function NotFound() {
   return (
     <main className="min-h-screen bg-[#E5D5D0] flex items-center justify-center px-6 selection:bg-[#1a1a1a] selection:text-[#E5D5D0]">
-      <div className="max-w-3xl w-full text-center">
+      <div className="max-w-3xl w-full text-center relative overflow-hidden py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

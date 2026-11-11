@@ -62,7 +62,7 @@ export default async function Image() {
                             lineHeight: 1.5,
                         }}
                     >
-                        CS Student | Full-Stack Developer | Problem Solver
+                        Final-Year CS Engineer | Full-Stack Developer | Problem Solver
                     </p>
                     <div
                         style={{

@@ -1,8 +1,15 @@
 export const siteConfig = {
-    title: "Hareram Kushwaha | CS Engineering Student & Full Stack Developer",
-    description: "Hareram Kushwaha is a Computer Science Engineering student, Full Stack Developer, and Problem Solver specializing in building scalable backend systems and high-performance digital solutions.",
-    bio: "A Computer Science Engineering student at KPRIET with a passion for architecting scalable systems. Evolving from academic foundations to professional engineering, focusing on clean, maintainable code and solving complex computational challenges as a dedicated Problem Solver.",
+    title: "Hareram Kushwaha | Final-Year CS Engineer & Full Stack Developer",
+    description: "Hareram Kushwaha is a final-year Computer Science Engineering student (Semester VII) at KPRIET, Full Stack Developer, and Problem Solver specializing in building scalable backend systems and high-performance digital solutions.",
+    bio: "Final-year Computer Science Engineering student at KPRIET (Semester VII, Sep 2023 – Sep 2027) with a deep focus on architecting resilient backend systems. Specializing in clean, maintainable code, distributed systems, and solving complex computational challenges as a dedicated Problem Solver.",
     author: "Hareram Kushwaha",
+    academic: {
+        institution: "KPR Institute of Engineering and Technology",
+        degree: "B.E. Computer Science and Engineering",
+        currentSemester: "VII Semester (Final Year)",
+        period: "Sep 2023 — Sep 2027",
+        cgpa: "7.9",
+    },
     resumeUrl: "https://ha-re-ram.github.io/Resume/",
     resumeSource: "https://github.com/ha-re-ram/Resume",
     social: {
